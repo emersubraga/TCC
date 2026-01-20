@@ -5,15 +5,16 @@ Este repositório foi criado com o objetivo de armazenar, versionar e documentar
 ## 📌 Tema do TCC
 **Sistema Web para Apoio ao Acompanhamento de ONGs de Proteção Animal**
 
-O trabalho tem como foco o desenvolvimento de um sistema web voltado ao auxílio no acompanhamento das atividades realizadas por organizações não governamentais (ONGs) que atuam no cuidado, resgate e proteção de animais em situação de vulnerabilidade.
+O trabalho tem como foco o desenvolvimento de um sistema web voltado ao auxílio no acompanhamento dos animais assistidos por organizações não governamentais (ONGs) e protetores independentes que atuam no cuidado, resgate e proteção de animais em situação de vulnerabilidade.
 
 ## 🎯 Objetivo
-Desenvolver uma solução tecnológica que facilite o gerenciamento e o acompanhamento das ações realizadas pelas ONGs, contribuindo para uma melhor organização das informações, maior transparência e apoio à tomada de decisões.
+Desenvolver uma solução tecnológica que facilite o acompanhamento dos animais assistidos por ONGs e protetores independetes que estão em situação de rua.
 
 ## 🛠️ Tecnologias Utilizadas
-- Linguagem de programação: *a definir / em desenvolvimento*
-- Frameworks e bibliotecas: *a definir*
-- Banco de dados: *a definir*
+- Linguagem de programação: Python
+- Frameworks e bibliotecas: Django, Leaflet.js, OpenStreetMap, Pillow (PIL), qrcode
+- APIs: Geolocation API, Fetch API
+- Banco de dados: SQLite
 - Outras ferramentas: Git, GitHub
 
 > As tecnologias poderão ser ajustadas conforme a evolução do projeto.
@@ -21,14 +22,12 @@ Desenvolver uma solução tecnológica que facilite o gerenciamento e o acompanh
 ## 📄 Documento do TCC
 O arquivo digital completo do texto do TCC pode ser acessado através do link abaixo:
 
-🔗 **[Acessar o documento do TCC](COLE_AQUI_O_LINK_DO_ARQUIVO_DIGITAL)**
+🔗 **[Acessar o documento do TCC](https://docs.google.com/document/d/1CYq-KBBcEup6Sn1GuMSfvrxZLFTj-4SE0rUqLjvU8ec/edit?usp=sharing)**
 
-> O link pode direcionar para Google Drive, OneDrive, PDF online ou outra plataforma de hospedagem.
 
 ## 📂 Estrutura do Repositório
-- `/docs` – Documentação complementar
-- `/src` – Código-fonte do sistema
-- `/assets` – Imagens, diagramas e outros recursos
+- `/Material` – Documentação complementar
+- `/ongs` – Código-fonte do sistema
 - `README.md` – Documento de apresentação do projeto
 
 ## 📚 Metodologia
@@ -36,7 +35,7 @@ O desenvolvimento do projeto segue uma abordagem incremental, com validações r
 
 ## 👨‍💻 Autor
 **Emerson Braga**  
-Acadêmico de *Curso a definir*  
+Acadêmico de Tecnologia em Sisterma para Internet  
 
 ## 📜 Licença
 Este projeto é de caráter acadêmico e seu uso está restrito a fins educacionais, salvo indicação em contrário.
