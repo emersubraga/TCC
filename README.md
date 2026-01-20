@@ -35,7 +35,11 @@ O desenvolvimento do projeto segue uma abordagem incremental, com validações r
 
 ## 👨‍💻 Autor
 **Emerson Braga**  
-Acadêmico de Tecnologia em Sisterma para Internet  
+Acadêmico de Tecnologia em Sisterma para Internet
+
+## Orientador
+**Marcelo Damasceno**
+Docente do Curso de Tecnologia em Sistemas para Internet
 
 ## 📜 Licença
 Este projeto é de caráter acadêmico e seu uso está restrito a fins educacionais, salvo indicação em contrário.
