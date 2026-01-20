@@ -37,8 +37,8 @@ O desenvolvimento do projeto segue uma abordagem incremental, com validações r
 **Emerson Braga**  
 Acadêmico de Tecnologia em Sisterma para Internet
 
-## Orientador
-**Marcelo Damasceno**
+## 👨‍🏫 Orientador
+**Marcelo Damasceno**  
 Docente do Curso de Tecnologia em Sistemas para Internet
 
 ## 📜 Licença
