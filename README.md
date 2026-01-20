@@ -3,7 +3,7 @@
 Este repositório foi criado com o objetivo de armazenar, versionar e documentar o desenvolvimento do meu **Trabalho de Conclusão de Curso (TCC)**, servindo como apoio acadêmico e técnico durante todo o processo de elaboração do trabalho.
 
 ## 📌 Tema do TCC
-**Sistema Web para Apoio ao Acompanhamento de ONGs de Proteção Animal**
+**Sistema Web para Auxilio ao Acompanhamento de Animais em Situação de Rua Assistidos por ONGs e Protetores Independentes**
 
 O trabalho tem como foco o desenvolvimento de um sistema web voltado ao auxílio no acompanhamento dos animais assistidos por organizações não governamentais (ONGs) e protetores independentes que atuam no cuidado, resgate e proteção de animais em situação de vulnerabilidade.
 
