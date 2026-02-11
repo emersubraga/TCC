@@ -5,6 +5,11 @@ import json
 
 from .models import Animal, Localizacao
 
+from django.contrib.auth.decorators import login_required
+
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
 
 @csrf_exempt
 def salvar_localizacao(request):

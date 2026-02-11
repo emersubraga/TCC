@@ -10,56 +10,59 @@
           href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
     <!-- Fonte -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
-            background: #f4f7f6;
+            background: #f3f5f7;
             padding: 20px;
+            color: #2c3e50;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 920px;
             margin: auto;
-            background: #fff;
-            border-radius: 16px;
+            background: #ffffff;
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
         .header {
-            background: linear-gradient(135deg, #6ab04c, #badc58);
-            padding: 20px;
-            text-align: center;
+            background: #2e7d32;
+            padding: 22px;
             color: #fff;
         }
 
         .header h1 {
-            font-size: 2rem;
+            font-size: 1.9rem;
             font-weight: 600;
         }
 
         .animal-card {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 24px;
             padding: 25px;
         }
 
         .animal-photo {
-            width: 100%;
             height: 280px;
-            background: #eaeaea;
-            border-radius: 14px;
+            border-radius: 12px;
             overflow: hidden;
+            background: #eaeaea;
         }
 
         .animal-photo img {
@@ -69,32 +72,36 @@
         }
 
         .animal-info p {
-            margin-bottom: 10px;
-            font-size: 1rem;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
         }
 
-        .animal-info strong {
-            color: #2d3436;
+        .animal-info i {
+            margin-right: 8px;
+            color: #2e7d32;
         }
 
         .divider {
             height: 1px;
-            background: #eee;
-            margin: 20px;
+            background: #e0e0e0;
+            margin: 10px 0;
         }
 
         .section {
-            padding: 0 25px 25px;
+            padding: 25px;
         }
 
         .section h2 {
+            font-size: 1.2rem;
             margin-bottom: 15px;
-            color: #2d3436;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         #map {
-            height: 400px;
-            border-radius: 12px;
+            height: 380px;
+            border-radius: 10px;
             margin-bottom: 20px;
         }
 
@@ -103,141 +110,56 @@
         }
 
         .timeline li {
-            background: #f1f2f6;
-            padding: 10px 15px;
-            border-radius: 8px;
+            background: #f6f8f7;
+            padding: 10px 14px;
+            border-radius: 6px;
             margin-bottom: 8px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
         .warning {
             background: #fff3cd;
-            padding: 15px;
-            border-radius: 10px;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
             color: #856404;
-            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         footer {
             text-align: center;
             padding: 15px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #777;
         }
 
-        @media (max-width: 768px) {
-            .animal-card {
-                grid-template-columns: 1fr;
-            }
-
-            .animal-photo {
-                height: 220px;
-            }
-        }
-
-        .tag-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .qr-box {
-            text-align: center;
-        }
-
-        .qr-img {
-            width: 180px;
-            margin-top: 10px;
-        }
-
-        .tag-print {
-            width: 260px;
-            padding: 15px;
-            border: 2px dashed #6ab04c;
-            border-radius: 12px;
-            text-align: center;
-            background: #f8fff5;
-        }
-
-        .tag-print img {
-            width: 120px;
-            margin: 10px 0;
-        }
-
-        .tag-print h3 {
-            margin-bottom: 5px;
-        }
-
-        .tag-print .small {
-            font-size: 0.8rem;
-            margin-top: 5px;
-        }
-
-        .tag-print .contact {
-            font-size: 0.85rem;
-            margin-top: 8px;
-            font-weight: 600;
-        }
-
-        .print-btn {
-            margin-top: 15px;
-            padding: 10px 18px;
-            background: #6ab04c;
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        .print-btn:hover {
-            background: #5aa63f;
-        }
-
-        /* 🔥 ESTILO APENAS PARA IMPRESSÃO */
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-
-            #tag-print, #tag-print * {
-                visibility: visible;
-            }
-
-            #tag-print {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                border: none;
-            }
-        }
-
+        /* Medalha */
         .medalha-container {
             display: flex;
-            gap: 40px;
             justify-content: center;
+            gap: 40px;
             flex-wrap: wrap;
         }
 
         .medalha {
-            width: 220px;
-            height: 220px;
+            width: 210px;
+            height: 210px;
             border-radius: 50%;
-            border: 3px solid #6ab04c;
-            background: #f8fff5;
+            border: 3px solid #2e7d32;
+            background: #f9fbfa;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 15px;
             text-align: center;
+            padding: 15px;
         }
 
         .medalha h3 {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
+            font-size: 1rem;
+            margin-bottom: 10px;
         }
 
         .medalha img {
@@ -245,44 +167,43 @@
         }
 
         .medalha.verso {
+            font-size: 0.85rem;
             background: #ffffff;
         }
 
-        .medalha .help {
-            font-size: 0.7rem;
-            margin-bottom: 10px;
-        }
-
         .medalha .contact {
-            font-size: 0.9rem;
+            margin-top: 10px;
             font-weight: 600;
         }
 
         .print-btn {
             margin-top: 20px;
             padding: 10px 20px;
-            background: #6ab04c;
+            background: #2e7d32;
             border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 1rem;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.95rem;
             cursor: pointer;
         }
 
         .print-btn:hover {
-            background: #5aa63f;
+            background: #256428;
         }
 
-        /* 🖨️ IMPRESSÃO */
+        @media (max-width: 768px) {
+            .animal-card {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media print {
             body * {
                 visibility: hidden;
             }
-
             #tag-print, #tag-print * {
                 visibility: visible;
             }
-
             #tag-print {
                 position: absolute;
                 top: 0;
@@ -290,13 +211,7 @@
                 width: 100%;
                 justify-content: space-around;
             }
-
-            .medalha {
-                page-break-inside: avoid;
-            }
         }
-
-
     </style>
 </head>
 
@@ -305,51 +220,42 @@
 <div class="container">
 
     <div class="header">
-        <h1>🐾 {{ animal.nome }}</h1>
+        <h1>{{ animal.nome }}</h1>
     </div>
 
     <div class="animal-card">
 
-        <!-- FOTO DO ANIMAL -->
         <div class="animal-photo">
             {% if animal.foto %}
                 <img src="{{ animal.foto.url }}" alt="Foto do animal">
             {% else %}
-                <img src="https://placekitten.com/600/400" alt="Foto do animal">
+                <img src="https://placehold.co/600x400?text=Sem+Foto">
             {% endif %}
         </div>
 
-        <!-- INFORMAÇÕES -->
         <div class="animal-info">
-            <p><strong>Espécie:</strong> {{ animal.especie }}</p>
-            <p><strong>Raça:</strong> {{ animal.raca }}</p>
-            <p><strong>Responsável:</strong> {{ animal.protetor.nome }}</p>
-            <p><strong>Contato:</strong> {{ animal.protetor.telefone }}</p>
+            <p><i class="fa-solid fa-paw"></i><strong>Espécie:</strong> {{ animal.especie }}</p>
+            <p><i class="fa-solid fa-dna"></i><strong>Raça:</strong> {{ animal.raca }}</p>
+            <p><i class="fa-solid fa-user"></i><strong>Responsável:</strong> {{ animal.protetor.nome }}</p>
+            <p><i class="fa-solid fa-phone"></i><strong>Contato:</strong> {{ animal.protetor.telefone }}</p>
         </div>
 
     </div>
 
-    <div class="divider"></div>
-
     {% if user.is_authenticated %}
     <div class="section">
-        <h2>🏅 Medalha de Identificação</h2>
+        <h2><i class="fa-solid fa-id-card"></i> Identificação do Animal</h2>
 
         <div class="medalha-container" id="tag-print">
 
-            <!-- FRENTE -->
-            <div class="medalha frente">
-                <h3>🐾 {{ animal.nome }}</h3>
+            <div class="medalha">
+                <h3>{{ animal.nome }}</h3>
                 <img src="{{ animal.qr_code.url }}" alt="QR Code">
             </div>
 
-            <!-- VERSO -->
             <div class="medalha verso">
-                <p class="help">
-                    Estou sob cuidado de uma ONG.<br>
-                    Escaneie o QR Code para ajudar.
-                </p>
-
+                <p>Animal sob cuidados de uma ONG.</p>
+                <p>Escaneie o QR Code para auxiliar.</p>
                 <p class="contact">
                     {{ animal.protetor.nome }}<br>
                     {{ animal.protetor.telefone }}
@@ -358,13 +264,11 @@
 
         </div>
 
-        <button onclick="imprimirTag()" class="print-btn">
-            Imprimir Medalha
+        <button onclick="window.print()" class="print-btn">
+            <i class="fa-solid fa-print"></i> Imprimir identificação
         </button>
     </div>
-
     {% endif %}
-
 
     <!-- CAPTURA DE LOCALIZAÇÃO -->
     <script>
@@ -388,80 +292,98 @@
 
     <!-- ÁREA DO PROTETOR -->
     {% if user.is_authenticated %}
-        <div class="section">
-            <h2>📍 Histórico de Localizações</h2>
+    <div class="section">
+        <h2>
+            <i class="fa-solid fa-location-dot"></i>
+            Histórico de Localizações
+        </h2>
 
-            {% if ultima_localizacao %}
-                <div id="map"></div>
+        {% if ultima_localizacao %}
+            <!-- MAPA (MOSTRA TODAS AS LOCALIZAÇÕES) -->
+            <div id="map"></div>
 
-                <ul class="timeline">
-                    {% for loc in localizacoes %}
-                        <li>{{ loc.data|localtime|date:"d/m/Y H:i" }}</li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>Nenhuma localização registrada ainda.</p>
-            {% endif %}
-        </div>
+            <!-- TIMELINE (APENAS AS 10 ÚLTIMAS) -->
+            <ul class="timeline">
+                {% for loc in localizacoes|slice:":10" %}
+                    <li>
+                        {{ loc.data|localtime|date:"d/m/Y H:i" }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Nenhuma localização registrada.</p>
+        {% endif %}
+    </div>
     {% else %}
-        <div class="section">
-            <div class="warning">
-                🔒 O mapa de localização é visível apenas para o protetor.
-            </div>
+    <div class="section">
+        <div class="warning">
+            <i class="fa-solid fa-lock"></i>
+            O histórico de localização é restrito ao protetor.
         </div>
+    </div>
     {% endif %}
 
+
     <footer>
-        Projeto de Monitoramento Animal • ONG
+        Sistema de Monitoramento Animal • ONG
     </footer>
 
 </div>
 
 {% if user.is_authenticated and ultima_localizacao %}
 <script>
-var map = L.map('map').setView(
-    [{{ ultima_localizacao.latitude }}, {{ ultima_localizacao.longitude }}],
-    15
-);
+    var map = L.map('map').setView(
+        [{{ ultima_localizacao.latitude }}, {{ ultima_localizacao.longitude }}],
+        15
+    );
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap'
-}).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
 
-{% for loc in localizacoes %}
-    {% if forloop.first %}
-        L.marker(
-            [{{ loc.latitude }}, {{ loc.longitude }}],
-            { icon: L.icon({
-                iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
-                iconSize: [38, 38]
-            })}
-        ).addTo(map)
-         .bindPopup("<b>📍 Última localização</b><br>{{ loc.data|localtime|date:'d/m/Y H:i' }}");
-    {% else %}
-        L.marker(
-            [{{ loc.latitude }}, {{ loc.longitude }}],
-            { icon: L.icon({
-                iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
-                iconSize: [24, 24]
-            })}
-        ).addTo(map)
-         .bindPopup("{{ loc.data|localtime|date:'d/m/Y H:i' }}");
-    {% endif %}
-{% endfor %}
+    // Ícone CINZA (localizações antigas)
+    const iconCinza = L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-grey.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
 
+    // Ícone AZUL (última localização)
+    const iconAzul = L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+        iconSize: [30, 45],
+        iconAnchor: [15, 45],
+        popupAnchor: [1, -34],
+        shadowSize: [45, 45]
+    });
+
+    {% for loc in localizacoes %}
+        {% if forloop.first %}
+            // Última localização (AZUL)
+            L.marker(
+                [{{ loc.latitude }}, {{ loc.longitude }}],
+                { icon: iconAzul }
+            ).addTo(map)
+             .bindPopup("<strong>Última localização</strong><br>{{ loc.data|localtime|date:'d/m/Y H:i' }}");
+        {% else %}
+            // Localizações anteriores (CINZA)
+            L.marker(
+                [{{ loc.latitude }}, {{ loc.longitude }}],
+                { icon: iconCinza }
+            ).addTo(map)
+             .bindPopup("{{ loc.data|localtime|date:'d/m/Y H:i' }}");
+        {% endif %}
+    {% endfor %}
 </script>
 {% endif %}
 
-<script>
-    function imprimirTag() {
-        window.print();
-    }
-</script>
-
-
-
 </body>
 </html>
+
+
 
 
