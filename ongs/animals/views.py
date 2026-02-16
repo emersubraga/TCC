@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db.models import Max, Count
 from datetime import timedelta
@@ -269,3 +270,55 @@ def salvar_localizacao(request):
             return JsonResponse({"status": "erro", "mensagem": str(e)}, status=400)
 
     return JsonResponse({"status": "metodo_invalido"}, status=405)
+
+
+@login_required
+def solicitacoes_list(request):
+    perfil = get_perfil(request.user)
+    if perfil.tipo != "ADMIN":
+        messages.error(request, "Acesso negado.")
+        return redirect("dashboard")
+
+    pendentes = Perfil.objects.filter(solicitacao_status="PENDENTE").select_related("user").order_by("-solicitacao_data")
+
+    return render(request, "admin/solicitacoes.html", {"pendentes": pendentes})
+
+
+@login_required
+def solicitacao_aprovar(request, perfil_id):
+    perfil_admin = get_perfil(request.user)
+    if perfil_admin.tipo != "ADMIN":
+        messages.error(request, "Acesso negado.")
+        return redirect("dashboard")
+
+    p = get_object_or_404(Perfil, id=perfil_id)
+
+    if request.method == "POST" and p.solicitacao_status == "PENDENTE" and p.solicitacao_tipo in ["ONG", "PROTETOR"]:
+        p.tipo = p.solicitacao_tipo
+        p.solicitacao_status = "APROVADO"
+        p.solicitacao_tipo = None
+        p.solicitacao_data = None
+        p.save()
+        messages.success(request, "Solicitação aprovada!")
+
+    return redirect("solicitacoes_list")
+
+
+@login_required
+def solicitacao_rejeitar(request, perfil_id):
+    perfil_admin = get_perfil(request.user)
+    if perfil_admin.tipo != "ADMIN":
+        messages.error(request, "Acesso negado.")
+        return redirect("dashboard")
+
+    p = get_object_or_404(Perfil, id=perfil_id)
+
+    if request.method == "POST" and p.solicitacao_status == "PENDENTE":
+        p.tipo = "COMUM"
+        p.solicitacao_status = "REJEITADO"
+        p.solicitacao_tipo = None
+        p.solicitacao_data = None
+        p.save()
+        messages.success(request, "Solicitação rejeitada!")
+
+    return redirect("solicitacoes_list")

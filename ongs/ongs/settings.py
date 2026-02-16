@@ -63,6 +63,8 @@ LOGIN_REDIRECT_URL = "dashboard"
 LOGOUT_REDIRECT_URL = "account_login"
 LOGIN_URL = "account_login"
 
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

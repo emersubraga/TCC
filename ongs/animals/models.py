@@ -11,7 +11,6 @@ import os
 # ==========================================
 
 class Perfil(models.Model):
-
     TIPOS = (
         ('ADMIN', 'Administrador'),
         ('ONG', 'ONG'),
@@ -19,14 +18,34 @@ class Perfil(models.Model):
         ('COMUM', 'Usuário Comum'),
     )
 
+    STATUS_SOLIC = (
+        ("NENHUMA", "Nenhuma"),
+        ("PENDENTE", "Pendente"),
+        ("APROVADO", "Aprovado"),
+        ("REJEITADO", "Rejeitado"),
+    )
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     tipo = models.CharField(max_length=20, choices=TIPOS)
 
     telefone = models.CharField(max_length=20, blank=True, null=True)
 
+    # 🔥 NOVO (solicitação)
+    solicitacao_tipo = models.CharField(
+        max_length=20,
+        choices=TIPOS,
+        blank=True,
+        null=True
+    )
+    solicitacao_status = models.CharField(
+        max_length=20,
+        choices=STATUS_SOLIC,
+        default="NENHUMA"
+    )
+    solicitacao_data = models.DateTimeField(blank=True, null=True)
+
     def __str__(self):
         return f"{self.user.username} - {self.tipo}"
-
 
 # ==========================================
 # ANIMAL

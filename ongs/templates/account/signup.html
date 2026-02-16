@@ -102,6 +102,19 @@
         <div class="text-red-600 text-xs mt-1">{{ form.password2.errors }}</div>
       </div>
 
+      <div>
+        <label class="block text-sm font-medium mb-1">Quero me cadastrar como</label>
+        <select name="tipo_solicitado"
+                class="w-full p-3 rounded-xl border bg-gray-50 focus:outline-none focus:ring-4 focus:ring-green-200 focus:border-green-600">
+          <option value="COMUM">Usuário comum</option>
+          <option value="PROTETOR">Protetor</option>
+          <option value="ONG">ONG</option>
+        </select>
+        <p class="text-xs text-gray-500 mt-1">
+          ONG/Protetor precisam de aprovação do administrador.
+        </p>
+      </div>
+
       <button type="submit" class="w-full bg-green-600 text-white py-2.5 rounded-xl hover:bg-green-700 transition font-medium">
         Criar Conta
       </button>

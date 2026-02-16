@@ -15,6 +15,9 @@ urlpatterns = [
     path("animal/<int:id>/", views.animal_public_detail, name="animal_public_detail"),  # público (QR)
 
     path("api/localizacao/", views.salvar_localizacao, name="salvar_localizacao"),
+    path("solicitacoes/", views.solicitacoes_list, name="solicitacoes_list"),
+    path("solicitacoes/<int:perfil_id>/aprovar/", views.solicitacao_aprovar, name="solicitacao_aprovar"),
+    path("solicitacoes/<int:perfil_id>/rejeitar/", views.solicitacao_rejeitar, name="solicitacao_rejeitar"),
 ]
 
 

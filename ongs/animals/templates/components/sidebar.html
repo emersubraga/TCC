@@ -28,6 +28,14 @@
             <span>📊</span> Relatórios
         </a>
 
+        {% if perfil.tipo == "ADMIN" %}
+        <a href="{% url 'solicitacoes_list' %}"
+           class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
+            <span>📋</span> Solicitações
+        </a>
+        {% endif %}
+
+
         <a href="#"
            class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
             <span>⚙️</span> Configurações

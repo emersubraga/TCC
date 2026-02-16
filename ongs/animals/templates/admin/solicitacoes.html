@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-6">Solicitações pendentes</h1>
+
+{% if pendentes %}
+  <div class="bg-white rounded-xl shadow overflow-hidden">
+    <table class="w-full">
+      <thead class="bg-gray-50 text-left">
+        <tr>
+          <th class="p-4">Usuário</th>
+          <th class="p-4">Tipo solicitado</th>
+          <th class="p-4">Data</th>
+          <th class="p-4 text-right">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in pendentes %}
+          <tr class="border-t">
+            <td class="p-4">{{ p.user.username }}</td>
+            <td class="p-4 font-semibold">{{ p.solicitacao_tipo }}</td>
+            <td class="p-4">{{ p.solicitacao_data|date:"d/m/Y H:i" }}</td>
+            <td class="p-4 text-right">
+              <div class="inline-flex gap-2">
+                <form method="post" action="{% url 'solicitacao_aprovar' p.id %}">
+                  {% csrf_token %}
+                  <button class="px-3 py-2 rounded-lg bg-green-600 text-white">Aprovar</button>
+                </form>
+                <form method="post" action="{% url 'solicitacao_rejeitar' p.id %}">
+                  {% csrf_token %}
+                  <button class="px-3 py-2 rounded-lg bg-red-600 text-white">Rejeitar</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <p>Nenhuma solicitação pendente.</p>
+{% endif %}
+
+{% endblock %}
