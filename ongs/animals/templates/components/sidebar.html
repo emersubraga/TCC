@@ -2,53 +2,60 @@
 
     <!-- Logo -->
     <div class="p-6 text-2xl font-bold text-green-700 border-b">
-        🐾 RastroAnimal
+        <i class="fa-solid fa-paw"></i> RastroAnimal
     </div>
 
     <!-- Menu -->
     <nav class="flex-1 px-4 py-6 space-y-2 text-gray-700">
 
         <a href="{% url 'dashboard' %}"
-           class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
-            <span>🏠</span> Dashboard
+        class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
+            <i class="fa-solid fa-house text-green-600 w-5"></i>
+            Dashboard
         </a>
 
         <a href="{% url 'animal_list' %}"
-           class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
-            <span>🐶</span> Animais
+        class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
+            <i class="fa-solid fa-paw text-green-600 w-5"></i>
+            Animais
         </a>
         
         {% if perfil.tipo == "ADMIN" or perfil.tipo == "ONG" or perfil.tipo == "PROTETOR" %}
-        <a href="{% url 'animal_create' %}" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
-            <span>➕</span> Cadastrar Animal
+        <a href="{% url 'animal_create' %}"
+        class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
+            <i class="fa-solid fa-plus text-green-600 w-5"></i>
+            Cadastrar Animal
         </a>
         {% endif %}
 
-
         <a href="#"
-           class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
-            <span>🗺️</span> Mapa
+        class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
+            <i class="fa-solid fa-map-location-dot text-green-600 w-5"></i>
+            Mapa
         </a>
 
         <a href="#"
-           class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
-            <span>📊</span> Relatórios
+        class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
+            <i class="fa-solid fa-chart-line text-green-600 w-5"></i>
+            Relatórios
         </a>
 
         {% if perfil.tipo == "ADMIN" %}
         <a href="{% url 'solicitacoes_list' %}"
-           class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
-            <span>📋</span> Solicitações
+        class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
+            <i class="fa-solid fa-clipboard-list text-green-600 w-5"></i>
+            Solicitações
         </a>
         {% endif %}
 
-
         <a href="#"
-           class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
-            <span>⚙️</span> Configurações
+        class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
+            <i class="fa-solid fa-gear text-green-600 w-5"></i>
+            Configurações
         </a>
 
     </nav>
+
 
     <!-- User -->
     <div class="p-4 border-t bg-gray-50">
