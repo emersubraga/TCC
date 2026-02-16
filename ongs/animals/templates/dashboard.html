@@ -1,12 +1,46 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Dashboard</title>
-</head>
-<body>
-    <h1>Bem-vindo à Dashboard</h1>
-    <p>Usuário logado: {{ request.user.email }}</p>
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
 
-    <a href="{% url 'account_logout' %}">Sair</a>
-</body>
-</html>
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-8">Dashboard</h1>
+
+<div class="grid grid-cols-4 gap-6 mb-8">
+
+    <div class="bg-white p-6 rounded-xl shadow">
+        <p class="text-gray-500">Total de Animais</p>
+        <h2 class="text-3xl font-bold text-green-600">{{ total_animais }}</h2>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow">
+        <p class="text-gray-500">Atualizados Hoje</p>
+        <h2 class="text-3xl font-bold text-blue-600">{{ atualizados_hoje }}</h2>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow">
+        <p class="text-gray-500">Sem Atualização</p>
+        <h2 class="text-3xl font-bold text-red-600">{{ sem_atualizacao }}</h2>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow">
+        <p class="text-gray-500">ONG</p>
+        <h2 class="text-xl font-semibold">{{ ong_nome }}</h2>
+    </div>
+
+</div>
+
+<div class="bg-white p-6 rounded-xl shadow">
+    <h2 class="text-xl font-bold mb-4">Últimos Animais Atualizados</h2>
+
+    <ul>
+        {% for animal in ultimos_animais %}
+            <li class="border-b py-3 flex justify-between">
+                <span>{{ animal.nome }}</span>
+                <a href="{% url 'animal_detail' animal.id %}" class="text-green-600">Ver</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+</div>
+
+{% endblock %}

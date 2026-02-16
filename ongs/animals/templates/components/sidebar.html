@@ -1,0 +1,50 @@
+<aside class="w-64 bg-white shadow-xl flex flex-col transition-all duration-300">
+
+    <!-- Logo -->
+    <div class="p-6 text-2xl font-bold text-green-700 border-b">
+        🐾 RastroAnimal
+    </div>
+
+    <!-- Menu -->
+    <nav class="flex-1 px-4 py-6 space-y-2 text-gray-700">
+
+        <a href="{% url 'dashboard' %}"
+           class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
+            <span>🏠</span> Dashboard
+        </a>
+
+        <a href="{% url 'animal_list' %}"
+           class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
+            <span>🐶</span> Animais
+        </a>
+
+        <a href="#"
+           class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
+            <span>🗺️</span> Mapa
+        </a>
+
+        <a href="#"
+           class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
+            <span>📊</span> Relatórios
+        </a>
+
+        <a href="#"
+           class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
+            <span>⚙️</span> Configurações
+        </a>
+
+    </nav>
+
+    <!-- User -->
+    <div class="p-4 border-t bg-gray-50">
+        <div class="text-sm text-gray-600 truncate">
+            {{ request.user.email }}
+        </div>
+
+        <a href="{% url 'account_logout' %}"
+           class="text-red-500 text-sm hover:underline">
+            Sair
+        </a>
+    </div>
+
+</aside>

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Animais{% endblock %}
+
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-8">Animais</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {% for animal in animais %}
+    <div class="bg-white rounded-xl shadow hover:shadow-xl transition overflow-hidden">
+
+      {% if animal.foto %}
+        <img src="{{ animal.foto.url }}" class="w-full h-48 object-cover">
+      {% else %}
+        <img src="https://placehold.co/600x400?text=Sem+Foto" class="w-full h-48 object-cover">
+      {% endif %}
+
+      <div class="p-4">
+        <h2 class="text-xl font-bold">{{ animal.nome }}</h2>
+        <p class="text-gray-500">{{ animal.especie }}</p>
+
+        <div class="mt-4 flex items-center justify-between">
+          <a href="{% url 'animal_detail' animal.id %}"
+             class="bg-green-600 text-white px-3 py-1 rounded-lg text-sm">
+            Ver
+          </a>
+
+          <div class="flex gap-2 flex-wrap">
+            <a href="{% url 'animal_public_detail' animal.id %}"
+               class="px-3 py-1 rounded-lg text-sm border">
+              Público
+            </a>
+
+            {% if perfil.tipo == "ADMIN" or perfil.tipo == "ONG" or perfil.tipo == "PROTETOR" %}
+              <a href="{% url 'animal_update' animal.id %}"
+                 class="px-3 py-1 rounded-lg text-sm bg-blue-600 text-white">
+                Editar
+              </a>
+
+              <form method="post" action="{% url 'animal_delete' animal.id %}">
+                {% csrf_token %}
+                <button type="submit"
+                        class="px-3 py-1 rounded-lg text-sm bg-red-600 text-white">
+                  Excluir
+                </button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

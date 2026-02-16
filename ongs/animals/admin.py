@@ -1,12 +1,27 @@
 from django.contrib import admin
-from .models import Animal, Protetor, Localizacao
-from .utils import gerar_qr_code
 from django.utils.html import format_html
+from .models import Animal, Localizacao, Perfil
 
+
+# ==========================================
+# ANIMAL ADMIN
+# ==========================================
 
 @admin.register(Animal)
 class AnimalAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'especie', 'raca', 'protetor', 'mostrar_foto', 'mostrar_qr')
+
+    list_display = (
+        'nome',
+        'especie',
+        'raca',
+        'responsavel',
+        'mostrar_foto',
+        'mostrar_qr'
+    )
+
+    list_filter = ('especie', 'responsavel')
+    search_fields = ('nome', 'raca')
+
     readonly_fields = ('qr_code', 'preview_qr', 'preview_foto')
 
     fieldsets = (
@@ -14,18 +29,12 @@ class AnimalAdmin(admin.ModelAdmin):
             'fields': ('nome', 'especie', 'raca', 'foto')
         }),
         ('Responsável', {
-            'fields': ('protetor',)
+            'fields': ('responsavel',)
         }),
         ('QR Code', {
             'fields': ('preview_qr', 'qr_code')
         }),
     )
-
-    def save_model(self, request, obj, form, change):
-        super().save_model(request, obj, form, change)
-
-        if not obj.qr_code:
-            gerar_qr_code(obj)
 
     def preview_qr(self, obj):
         if obj.qr_code:
@@ -53,5 +62,22 @@ class AnimalAdmin(admin.ModelAdmin):
     preview_foto.short_description = "Foto"
 
 
-admin.site.register(Protetor)
-admin.site.register(Localizacao)
+# ==========================================
+# PERFIL ADMIN
+# ==========================================
+
+@admin.register(Perfil)
+class PerfilAdmin(admin.ModelAdmin):
+    list_display = ('user', 'tipo', 'telefone')
+    list_filter = ('tipo',)
+    search_fields = ('user__username',)
+
+
+# ==========================================
+# LOCALIZAÇÃO ADMIN
+# ==========================================
+
+@admin.register(Localizacao)
+class LocalizacaoAdmin(admin.ModelAdmin):
+    list_display = ('animal', 'latitude', 'longitude', 'data')
+    list_filter = ('animal',)

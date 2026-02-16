@@ -1,0 +1,100 @@
+{% extends "base_public.html" %}
+{% load tz %}
+
+{% block title %}{{ animal.nome }} • RastroAnimal{% endblock %}
+
+{% block content %}
+
+<!-- Font Awesome -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<!-- Fonte -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+  body { background: #f3f5f7; padding: 20px; color: #2c3e50; }
+
+  .container {
+    max-width: 920px;
+    margin: auto;
+    background: #ffffff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  }
+  .header { background: #2e7d32; padding: 22px; color: #fff; }
+  .header h1 { font-size: 1.9rem; font-weight: 600; }
+
+  .animal-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 25px;
+  }
+  .animal-photo {
+    height: 280px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #eaeaea;
+  }
+  .animal-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+  .animal-info p { margin-bottom: 12px; font-size: 0.95rem; }
+  .animal-info i { margin-right: 8px; color: #2e7d32; }
+
+  .warning {
+    margin: 0 25px 25px;
+    background: #e8f5e9;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    color: #1b5e20;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  footer { text-align: center; padding: 15px; font-size: 0.8rem; color: #777; }
+
+  @media (max-width: 768px) { .animal-card { grid-template-columns: 1fr; } }
+</style>
+
+<div class="container">
+  <div class="header">
+    <h1>{{ animal.nome }}</h1>
+  </div>
+
+  <div class="animal-card">
+    <div class="animal-photo">
+      {% if animal.foto %}
+        <img src="{{ animal.foto.url }}" alt="Foto do animal">
+      {% else %}
+        <img src="https://placehold.co/600x400?text=Sem+Foto" alt="Sem foto">
+      {% endif %}
+    </div>
+
+    <div class="animal-info">
+      <p><i class="fa-solid fa-paw"></i><strong>Espécie:</strong> {{ animal.especie }}</p>
+      <p><i class="fa-solid fa-dna"></i><strong>Raça:</strong> {{ animal.raca }}</p>
+
+      <p><i class="fa-solid fa-user"></i><strong>Responsável:</strong> {{ animal.responsavel.username }}</p>
+
+      {% if perfil_responsavel.telefone %}
+        <p><i class="fa-solid fa-phone"></i><strong>Contato:</strong> {{ perfil_responsavel.telefone }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="warning">
+    <i class="fa-solid fa-circle-info"></i>
+    Este é um perfil público. O histórico de localizações e a identificação (QR/medalha) são restritos ao responsável.
+  </div>
+
+  <footer>
+    Sistema de Monitoramento Animal • RastroAnimal
+  </footer>
+</div>
+
+{% endblock %}
