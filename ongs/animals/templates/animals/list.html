@@ -3,7 +3,16 @@
 
 {% block content %}
 
-<h1 class="text-3xl font-bold mb-8">Animais</h1>
+
+{% if perfil.tipo == "ADMIN" or perfil.tipo == "ONG" or perfil.tipo == "PROTETOR" %}
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold mb-8">Animais</h1>
+    <a href="{% url 'animal_create' %}"
+       class="bg-green-600 text-white px-5 py-2 rounded-lg shadow hover:bg-green-700 transition">
+      + Novo Animal
+    </a>
+  </div>
+{% endif %}
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
   {% for animal in animais %}

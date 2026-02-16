@@ -5,6 +5,15 @@
 
 <h1 class="text-3xl font-bold mb-8">Dashboard</h1>
 
+{% if perfil.tipo == "ADMIN" or perfil.tipo == "ONG" or perfil.tipo == "PROTETOR" %}
+  <div class="mb-6">
+    <a href="{% url 'animal_create' %}"
+       class="inline-flex items-center gap-2 bg-green-600 text-white px-5 py-2 rounded-lg shadow hover:bg-green-700 transition">
+      + Cadastrar Animal
+    </a>
+  </div>
+{% endif %}
+
 <div class="grid grid-cols-4 gap-6 mb-8">
 
     <div class="bg-white p-6 rounded-xl shadow">

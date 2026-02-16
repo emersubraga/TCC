@@ -17,6 +17,13 @@
            class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
             <span>🐶</span> Animais
         </a>
+        
+        {% if perfil.tipo == "ADMIN" or perfil.tipo == "ONG" or perfil.tipo == "PROTETOR" %}
+        <a href="{% url 'animal_create' %}" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
+            <span>➕</span> Cadastrar Animal
+        </a>
+        {% endif %}
+
 
         <a href="#"
            class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-100 transition">
