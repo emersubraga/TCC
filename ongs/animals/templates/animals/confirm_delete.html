@@ -1,17 +1,75 @@
 {% extends "base.html" %}
-{% block content %}
-<div class="max-w-xl mx-auto">
-  <div class="bg-white rounded-xl shadow p-6">
-    <h1 class="text-xl font-semibold mb-2">Excluir animal</h1>
-    <p class="text-gray-700 mb-6">
-      Tem certeza que deseja excluir <strong>{{ animal.nome }}</strong>? Essa ação não pode ser desfeita.
-    </p>
 
-    <form method="post" class="flex justify-end gap-3">
-      {% csrf_token %}
-      <a href="{% url 'animal_list' %}" class="px-4 py-2 rounded-lg border text-gray-700 hover:bg-gray-50">Cancelar</a>
-      <button class="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700">Excluir</button>
-    </form>
+{% block content %}
+<div class="min-h-[70vh] flex items-center justify-center px-4">
+
+  <div class="w-full max-w-lg">
+
+    <!-- Card -->
+    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+
+      <!-- Header -->
+      <div class="bg-red-600 px-6 py-5 text-white">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-xl font-bold">Excluir Animal</h1>
+            <p class="text-red-100 text-sm mt-1">Ação irreversível</p>
+          </div>
+          <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+            <i class="fa-solid fa-triangle-exclamation text-lg"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div class="p-6 space-y-6">
+
+        <!-- Aviso -->
+        <div class="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-800">
+          <div class="flex items-start gap-3">
+            <i class="fa-solid fa-circle-exclamation mt-1"></i>
+            <div>
+              Você está prestes a excluir o animal
+              <strong class="font-semibold">{{ animal.nome }}</strong>.
+              <br>
+              Essa ação <span class="font-semibold">não pode ser desfeita</span>.
+            </div>
+          </div>
+        </div>
+
+        <!-- Dados resumidos -->
+        <div class="bg-gray-50 border border-gray-100 rounded-xl p-4">
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <p class="text-gray-500">Espécie</p>
+              <p class="font-semibold text-gray-900">{{ animal.especie }}</p>
+            </div>
+            <div>
+              <p class="text-gray-500">Raça</p>
+              <p class="font-semibold text-gray-900">{{ animal.raca }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ações -->
+        <form method="post" class="flex justify-end gap-3">
+          {% csrf_token %}
+
+          <a href="{% url 'animal_list' %}"
+             class="px-5 py-2.5 rounded-xl border border-gray-200 text-gray-700 font-medium hover:bg-gray-50 transition">
+            Cancelar
+          </a>
+
+          <button type="submit"
+                  class="px-5 py-2.5 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700 transition shadow-sm">
+            <i class="fa-solid fa-trash mr-2"></i>
+            Excluir definitivamente
+          </button>
+        </form>
+
+      </div>
+    </div>
+
   </div>
 </div>
 {% endblock %}

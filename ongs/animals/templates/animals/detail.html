@@ -11,365 +11,340 @@
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
-<!-- Fonte -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
 <style>
-  * {
+  /* =========================
+     IMPRESSÃO: MOSTRA SÓ A MEDALHA
+     ========================= */
+  @media print {
+    body * { visibility: hidden !important; }
+    #tag-print, #tag-print * { visibility: visible !important; }
+
+    /* garante que a medalha fique no topo e centralizada */
+    #tag-print {
+      position: fixed;
+      inset: 0;
       margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-  }
-
-  body {
-      background: #f3f5f7;
-      color: #2c3e50;
-  }
-
-  .container {
-      max-width: 920px;
-      margin: 20px auto;
-      background: #ffffff;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-  }
-
-  .header {
-      background: #2e7d32;
-      padding: 22px;
-      color: #fff;
-  }
-
-  .header h1 {
-      font-size: 1.9rem;
-      font-weight: 600;
-  }
-
-  .animal-card {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      padding: 25px;
-  }
-
-  .animal-photo {
-      height: 280px;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #eaeaea;
-  }
-
-  .animal-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-  }
-
-  .animal-info p {
-      margin-bottom: 12px;
-      font-size: 0.95rem;
-  }
-
-  .animal-info i {
-      margin-right: 8px;
-      color: #2e7d32;
-  }
-
-  .section {
-      padding: 25px;
-  }
-
-  .section h2 {
-      font-size: 1.2rem;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-  }
-
-  #map {
-      height: 380px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-  }
-
-  .timeline {
-      list-style: none;
-  }
-
-  .timeline li {
-      background: #f6f8f7;
-      padding: 10px 14px;
-      border-radius: 6px;
-      margin-bottom: 8px;
-      font-size: 0.9rem;
-  }
-
-  .warning {
-      background: #fff3cd;
-      padding: 14px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      color: #856404;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-  }
-
-  footer {
-      text-align: center;
-      padding: 15px;
-      font-size: 0.8rem;
-      color: #777;
-  }
-
-  /* Medalha */
-  .medalha-container {
+      padding: 18mm 10mm;
       display: flex;
       justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 18mm;
+      background: #fff;
+    }
+
+    /* evita quebra no meio */
+    .medalha { page-break-inside: avoid; }
+  }
+
+  /* =========================
+     MEDALHA (PINGENTE) - SEM DISTORCER
+     ========================= */
+  .medalha-container {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
   }
 
   .medalha {
-      width: 210px;
-      height: 210px;
-      border-radius: 50%;
-      border: 3px solid #2e7d32;
-      background: #f9fbfa;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 15px;
+    width: 210px;
+    height: 210px;
+    border-radius: 9999px;
+    border: 3px solid #2e7d32;
+    background: #f9fbfa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 14px;
   }
 
   .medalha h3 {
-      font-size: 1rem;
-      margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: #1f2937;
+    line-height: 1.1;
   }
 
   .medalha img {
-      width: 110px;
+    width: 112px;
+    height: 112px;
+    object-fit: contain; /* não distorce QR */
   }
 
   .medalha.verso {
-      font-size: 0.85rem;
-      background: #ffffff;
+    background: #ffffff;
+    font-size: 12px;
+    color: #334155;
+  }
+
+  .medalha .help {
+    font-size: 11px;
+    color: #475569;
+    line-height: 1.2;
+    margin-bottom: 10px;
   }
 
   .medalha .contact {
-      margin-top: 10px;
-      font-weight: 600;
-  }
-
-  .print-btn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: #2e7d32;
-      border: none;
-      border-radius: 6px;
-      color: #fff;
-      font-size: 0.95rem;
-      cursor: pointer;
-  }
-
-  .print-btn:hover {
-      background: #256428;
-  }
-
-  @media (max-width: 768px) {
-      .animal-card {
-          grid-template-columns: 1fr;
-      }
-  }
-
-  @media print {
-      body * {
-          visibility: hidden;
-      }
-      #tag-print, #tag-print * {
-          visibility: visible;
-      }
-      #tag-print {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          justify-content: space-around;
-      }
+    font-size: 12px;
+    font-weight: 800;
+    margin-top: 8px;
+    color: #111827;
+    line-height: 1.2;
   }
 </style>
 
-<div class="container">
+<div class="max-w-5xl mx-auto px-4 py-8">
 
-  <div class="header">
-      <h1>{{ animal.nome }}</h1>
-  </div>
+  <!-- CARD PRINCIPAL (EM CIMA) -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="px-6 py-5 bg-emerald-700 text-white flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-extrabold">{{ animal.nome }}</h1>
+        <p class="text-white/80 text-sm mt-1">Detalhes do animal</p>
+      </div>
+      <div class="w-11 h-11 rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center">
+        <i class="fa-solid fa-paw text-xl"></i>
+      </div>
+    </div>
 
-  <div class="animal-card">
+    <div class="p-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
 
-      <div class="animal-photo">
+        <!-- FOTO MENOR (sem distorcer) -->
+        <div class="md:col-span-1">
           {% if animal.foto %}
-              <img src="{{ animal.foto.url }}" alt="Foto do animal">
+            <img src="{{ animal.foto.url }}"
+                 class="w-full h-44 object-cover rounded-xl border border-gray-100"
+                 alt="Foto do animal">
           {% else %}
-              <img src="https://placehold.co/600x400?text=Sem+Foto">
+            <img src="https://placehold.co/900x700?text=Sem+Foto"
+                 class="w-full h-44 object-cover rounded-xl border border-gray-100"
+                 alt="Sem foto">
           {% endif %}
-      </div>
+        </div>
 
-      <div class="animal-info">
-          <p><i class="fa-solid fa-paw"></i><strong>Espécie:</strong> {{ animal.especie }}</p>
-          <p><i class="fa-solid fa-dna"></i><strong>Raça:</strong> {{ animal.raca }}</p>
+        <!-- INFO -->
+        <div class="md:col-span-2">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+            <div class="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+              <div class="text-gray-500 flex items-center gap-2">
+                <i class="fa-solid fa-paw text-emerald-700"></i> Espécie
+              </div>
+              <div class="font-extrabold text-gray-900 mt-1">{{ animal.especie }}</div>
+            </div>
 
-          <p><i class="fa-solid fa-user"></i><strong>Responsável:</strong> {{ animal.responsavel.username }}</p>
+            <div class="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+              <div class="text-gray-500 flex items-center gap-2">
+                <i class="fa-solid fa-dna text-emerald-700"></i> Raça
+              </div>
+              <div class="font-extrabold text-gray-900 mt-1">{{ animal.raca }}</div>
+            </div>
 
-          {% if perfil_responsavel.telefone %}
-            <p><i class="fa-solid fa-phone"></i><strong>Contato:</strong> {{ perfil_responsavel.telefone }}</p>
-          {% endif %}
-      </div>
+            <div class="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+              <div class="text-gray-500 flex items-center gap-2">
+                <i class="fa-solid fa-user text-emerald-700"></i> Responsável
+              </div>
+              <div class="font-extrabold text-gray-900 mt-1">{{ animal.responsavel.username }}</div>
+            </div>
 
-  </div>
-
-  <!-- MEDALHA (IGUAL A SUA) -->
-  {% if user.is_authenticated %}
-  <div class="section">
-      <h2><i class="fa-solid fa-id-card"></i> Identificação do Animal</h2>
-
-      <div class="medalha-container" id="tag-print">
-
-          <div class="medalha">
-              <h3>{{ animal.nome }}</h3>
-              {% if animal.qr_code %}
-                <img src="{{ animal.qr_code.url }}" alt="QR Code">
-              {% else %}
-                <p style="font-size:12px;color:#888;">QR Code não gerado</p>
-              {% endif %}
+            <div class="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+              <div class="text-gray-500 flex items-center gap-2">
+                <i class="fa-solid fa-phone text-emerald-700"></i> Contato
+              </div>
+              <div class="font-extrabold text-gray-900 mt-1">
+                {% if perfil_responsavel.telefone %}
+                  {{ perfil_responsavel.telefone }}
+                {% else %}
+                  Não informado
+                {% endif %}
+              </div>
+            </div>
           </div>
 
-          <div class="medalha verso">
-              <p>Animal sob cuidados de uma ONG.</p>
-              <p>Escaneie o QR Code para auxiliar.</p>
-              <p class="contact">
-                  {{ animal.responsavel.username }}<br>
-                  {% if perfil_responsavel.telefone %}{{ perfil_responsavel.telefone }}{% else %}Contato não informado{% endif %}
-              </p>
+          <!-- AÇÕES -->
+          <div class="mt-6 flex flex-col sm:flex-row gap-3">
+            <a href="{% url 'animal_update' animal.id %}"
+               class="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-white font-extrabold hover:bg-emerald-700 transition shadow">
+              <i class="fa-solid fa-pen-to-square"></i>
+              Editar
+            </a>
+
+            <a href="{% url 'animal_delete' animal.id %}"
+               class="inline-flex items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-700 font-extrabold hover:bg-red-100 transition">
+              <i class="fa-solid fa-trash"></i>
+              Excluir
+            </a>
+
+            <button type="button" onclick="window.print()"
+                    class="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-800 font-extrabold hover:bg-gray-50 transition">
+              <i class="fa-solid fa-print"></i>
+              Imprimir identificação
+            </button>
           </div>
 
+          <p class="text-xs text-gray-500 mt-3">
+            Dica: ao imprimir, o sistema exibirá apenas a medalha (frente e verso).
+          </p>
+        </div>
       </div>
-
-      <button onclick="window.print()" class="print-btn">
-          <i class="fa-solid fa-print"></i> Imprimir identificação
-      </button>
+    </div>
   </div>
-  {% endif %}
 
-  <!-- CAPTURA DE LOCALIZAÇÃO -->
-  <script>
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        fetch("/api/localizacao/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": "{{ csrf_token }}"
-          },
-          body: JSON.stringify({
-            animal_id: {{ animal.id }},
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          })
-        });
-      });
-    }
-  </script>
+  <!-- CARD MAPA / HISTÓRICO (EMBAIXO) -->
+  <div class="mt-6 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-100 flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center">
+        <i class="fa-solid fa-location-dot text-emerald-700"></i>
+      </div>
+      <div>
+        <h2 class="text-lg font-extrabold text-gray-900">Histórico de Localizações</h2>
+        <p class="text-sm text-gray-500">Mapa com todas as marcações e lista com as 10 últimas</p>
+      </div>
+    </div>
 
-  <!-- HISTÓRICO (RESTRITO) -->
-  {% if user.is_authenticated %}
-  <div class="section">
-      <h2>
-          <i class="fa-solid fa-location-dot"></i>
-          Histórico de Localizações
-      </h2>
+    <div class="p-6">
+      {% if user.is_authenticated %}
+        {% if ultima_localizacao %}
+          <div id="map" class="h-[360px] w-full rounded-2xl border border-gray-100 overflow-hidden"></div>
 
-      {% if ultima_localizacao %}
-          <div id="map"></div>
-
-          <ul class="timeline">
-              {% for loc in localizacoes|slice:":10" %}
-                  <li>
-                      {{ loc.data|localtime|date:"d/m/Y H:i" }}
-                  </li>
-              {% endfor %}
+          <ul class="mt-4 space-y-2 text-sm">
+            {% for loc in localizacoes|slice:":10" %}
+              <li class="flex items-center justify-between bg-gray-50 border border-gray-100 rounded-xl px-4 py-3">
+                <span class="text-gray-700 font-semibold">
+                  {{ loc.data|localtime|date:"d/m/Y H:i" }}
+                </span>
+                <span class="text-xs text-gray-500">
+                  {{ loc.latitude|floatformat:6 }}, {{ loc.longitude|floatformat:6 }}
+                </span>
+              </li>
+            {% endfor %}
           </ul>
+        {% else %}
+          <p class="text-sm text-gray-600">Nenhuma localização registrada.</p>
+        {% endif %}
       {% else %}
-          <p>Nenhuma localização registrada.</p>
-      {% endif %}
-  </div>
-  {% else %}
-  <div class="section">
-      <div class="warning">
+        <div class="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-amber-900 text-sm flex items-center gap-2">
           <i class="fa-solid fa-lock"></i>
-          O histórico de localização é restrito ao protetor.
+          O histórico de localização é restrito ao responsável.
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- =========================
+       MEDALHA (PINGENTE) PARA PRINT
+       Fica na página normalmente também, mas a impressão pega só ela.
+       ========================= -->
+  {% if user.is_authenticated %}
+  <div class="mt-8">
+    <h3 class="text-base font-extrabold text-gray-900 flex items-center gap-2 mb-3">
+      <i class="fa-solid fa-id-card text-emerald-700"></i>
+      Identificação do Animal (Pingente)
+    </h3>
+
+    <!-- ESTE É O BLOCO QUE O @media print EXIBE -->
+    <div class="medalha-container" id="tag-print">
+      <!-- FRENTE -->
+      <div class="medalha">
+        <h3>{{ animal.nome }}</h3>
+        {% if animal.qr_code %}
+          <img src="{{ animal.qr_code.url }}" alt="QR Code">
+        {% else %}
+          <div class="text-xs text-gray-500">QR Code não gerado</div>
+        {% endif %}
       </div>
+
+      <!-- VERSO -->
+      <div class="medalha verso">
+        <div class="help">
+          Estou sob cuidado de uma ONG.<br>
+          Escaneie o QR Code para ajudar.
+        </div>
+
+        <div class="contact">
+          {{ animal.responsavel.username }}<br>
+          {% if perfil_responsavel.telefone %}
+            {{ perfil_responsavel.telefone }}
+          {% else %}
+            Contato não informado
+          {% endif %}
+        </div>
+      </div>
+    </div>
   </div>
   {% endif %}
-
-  <footer>
-      Sistema de Monitoramento Animal • RastroAnimal
-  </footer>
 
 </div>
 
+<!-- CAPTURA DE LOCALIZAÇÃO (público/QR) -->
+<script>
+  // Mantém seu comportamento atual: tenta capturar localização quando abre a página.
+  // Se quiser, dá pra mudar para botão, mas aqui mantive igual ao seu antigo.
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      fetch("/api/localizacao/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: JSON.stringify({
+          animal_id: {{ animal.id }},
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        })
+      });
+    });
+  }
+</script>
+
 {% if user.is_authenticated and ultima_localizacao %}
 <script>
-  var map = L.map('map').setView(
-      [{{ ultima_localizacao.latitude }}, {{ ultima_localizacao.longitude }}],
-      15
+  const map = L.map('map').setView(
+    [{{ ultima_localizacao.latitude }}, {{ ultima_localizacao.longitude }}],
+    15
   );
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap'
+    attribution: '© OpenStreetMap'
   }).addTo(map);
 
+  // Ícone CINZA (antigas)
   const iconCinza = L.icon({
-      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-grey.png',
-      shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41]
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-grey.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
   });
 
+  // Ícone AZUL (última)
   const iconAzul = L.icon({
-      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-      shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-      iconSize: [30, 45],
-      iconAnchor: [15, 45],
-      popupAnchor: [1, -34],
-      shadowSize: [45, 45]
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+    iconSize: [30, 45],
+    iconAnchor: [15, 45],
+    popupAnchor: [1, -34],
+    shadowSize: [45, 45]
   });
 
   {% for loc in localizacoes %}
-      {% if forloop.first %}
-          L.marker(
-              [{{ loc.latitude }}, {{ loc.longitude }}],
-              { icon: iconAzul }
-          ).addTo(map)
-           .bindPopup("<strong>Última localização</strong><br>{{ loc.data|localtime|date:'d/m/Y H:i' }}");
-      {% else %}
-          L.marker(
-              [{{ loc.latitude }}, {{ loc.longitude }}],
-              { icon: iconCinza }
-          ).addTo(map)
-           .bindPopup("{{ loc.data|localtime|date:'d/m/Y H:i' }}");
-      {% endif %}
+    {% if forloop.first %}
+      L.marker([{{ loc.latitude }}, {{ loc.longitude }}], { icon: iconAzul })
+        .addTo(map)
+        .bindPopup("<strong>Última localização</strong><br>{{ loc.data|localtime|date:'d/m/Y H:i' }}");
+    {% else %}
+      L.marker([{{ loc.latitude }}, {{ loc.longitude }}], { icon: iconCinza })
+        .addTo(map)
+        .bindPopup("{{ loc.data|localtime|date:'d/m/Y H:i' }}");
+    {% endif %}
   {% endfor %}
 </script>
 {% endif %}
 
 {% endblock %}
-
 

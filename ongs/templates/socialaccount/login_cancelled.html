@@ -2,19 +2,25 @@
 {% load i18n %}
 
 {% block content %}
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-600 to-green-400 px-4">
-  <div class="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md text-center">
+<div class="min-h-screen bg-gradient-to-br from-emerald-700 via-emerald-600 to-lime-500 flex items-center justify-center p-6">
+  <div class="w-full max-w-md bg-white/95 backdrop-blur rounded-2xl shadow-2xl border border-white/40 p-8 text-center">
+    <div class="flex items-center justify-center gap-3 mb-4">
+      <div class="w-11 h-11 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center">
+        <i class="fa-solid fa-paw text-emerald-700 text-xl"></i>
+      </div>
+      <div class="text-2xl font-extrabold text-emerald-800">
+        Rastro<span class="text-orange-500">Animal</span>
+      </div>
+    </div>
 
-    <h1 class="text-3xl font-bold text-green-700 mb-2"><i class="fa-solid fa-paw"></i> RastroAnimal</h1>
-    <p class="text-gray-500 mb-6">
+    <p class="text-gray-600 mb-7">
       Login com Google cancelado.
     </p>
 
     <a href="{% url 'account_login' %}"
-       class="w-full inline-block bg-green-600 text-white py-2.5 rounded-xl hover:bg-green-700 transition font-medium">
+       class="inline-flex items-center justify-center w-full rounded-xl bg-emerald-600 text-white py-3 font-semibold hover:bg-emerald-700 transition shadow">
       Voltar para entrar
     </a>
-
   </div>
 </div>
 {% endblock %}

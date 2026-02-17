@@ -1,33 +1,39 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}RastroAnimal{% endblock %}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}RastroAnimal{% endblock %}</title>
 
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
+  <!-- Tailwind (CDN para dev) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <!-- Fonte -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+  </style>
 </head>
-<body class="bg-gray-100">
 
-<div class="flex h-screen">
+<body class="bg-slate-50 text-slate-800">
+  <div class="min-h-screen flex">
 
     {% include "components/sidebar.html" %}
 
-    <div class="flex-1 flex flex-col">
+    <main class="flex-1">
+      {% include "components/topbar.html" %}
 
-        {% include "components/topbar.html" %}
+      <section class="p-6 lg:p-8">
+        {% block content %}{% endblock %}
+      </section>
+    </main>
 
-        <main class="flex-1 p-8 overflow-y-auto">
-            {% block content %}{% endblock %}
-        </main>
-
-    </div>
-
-</div>
-
+  </div>
 </body>
 </html>
