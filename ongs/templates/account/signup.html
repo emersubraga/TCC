@@ -70,6 +70,11 @@
     <form method="post" action="{% url 'account_signup' %}" class="auth-form space-y-4 text-left">
       {% csrf_token %}
 
+      {# ✅ mantém o next do allauth (redirect_field) #}
+      {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+      {% endif %}
+
       {% if form.non_field_errors %}
         <div class="auth-errors">{{ form.non_field_errors }}</div>
       {% endif %}

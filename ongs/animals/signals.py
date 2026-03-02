@@ -17,31 +17,21 @@ def criar_perfil_automatico(sender, instance, created, **kwargs):
 
 @receiver(user_signed_up)
 def salvar_solicitacao_tipo(sender, request, user, **kwargs):
-    """
-    Captura o select do signup: name="tipo_solicitado"
-    e salva como solicitação pendente (ONG/PROTETOR),
-    mantendo o tipo final como COMUM até aprovação do ADMIN.
-    """
     tipo = (request.POST.get("tipo_solicitado") or "COMUM").upper()
-
-    # Segurança: só permite esses valores
     if tipo not in ["ONG", "PROTETOR", "COMUM"]:
         tipo = "COMUM"
 
-    # O perfil já deve existir pelo post_save, mas garantimos
     perfil, _ = Perfil.objects.get_or_create(user=user, defaults={"tipo": "COMUM"})
 
     if tipo in ["ONG", "PROTETOR"]:
-        # Mantém COMUM e cria solicitação pendente
         perfil.tipo = "COMUM"
         perfil.solicitacao_tipo = tipo
         perfil.solicitacao_status = "PENDENTE"
         perfil.solicitacao_data = timezone.now()
-        perfil.save()
-    else:
-        # Caso COMUM, limpa qualquer solicitação
-        perfil.tipo = "COMUM"
-        perfil.solicitacao_tipo = None
-        perfil.solicitacao_status = "NENHUMA"
-        perfil.solicitacao_data = None
+
+        # se ONG, guarda dados
+        if tipo == "ONG":
+            perfil.ong_cnpj = (request.POST.get("ong_cnpj") or "").strip()
+            perfil.ong_representante_legal = (request.POST.get("ong_representante_legal") or "").strip()
+
         perfil.save()

@@ -33,6 +33,44 @@
           <p class="text-sm text-white/85 mt-1">Identificação rápida do animal.</p>
         </div>
       </div>
+
+      <div class="mt-6 grid grid-cols-1 gap-4">
+
+        <a href="{% url 'animais_publicos' %}?status=ADOCAO"
+          class="rounded-2xl bg-white/10 border border-white/15 p-5 hover:bg-white/20 transition backdrop-blur group">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+              <i class="fa-solid fa-heart text-white text-lg"></i>
+            </div>
+            <div>
+              <div class="font-semibold text-white group-hover:text-orange-200 transition">
+                Animais para Adoção
+              </div>
+              <p class="text-sm text-white/85 mt-1">
+                Veja pets disponíveis aguardando um novo lar.
+              </p>
+            </div>
+          </div>
+        </a>
+
+        <a href="{% url 'animais_publicos' %}?status=PERDIDO"
+          class="rounded-2xl bg-white/10 border border-white/15 p-5 hover:bg-white/20 transition backdrop-blur group">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+              <i class="fa-solid fa-magnifying-glass-location text-white text-lg"></i>
+            </div>
+            <div>
+              <div class="font-semibold text-white group-hover:text-orange-200 transition">
+                Animais Perdidos
+              </div>
+              <p class="text-sm text-white/85 mt-1">
+                Ajude a encontrar animais desaparecidos.
+              </p>
+            </div>
+          </div>
+        </a>
+
+      </div>
     </div>
   </div>
 
@@ -103,6 +141,11 @@
 
         <form method="post" action="{% url 'account_login' %}" class="auth-form space-y-4 text-left">
           {% csrf_token %}
+
+          {# ✅ mantém o next do allauth (redirect_field) #}
+          {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+          {% endif %}
 
           {% if form.non_field_errors %}
             <div class="auth-errors">{{ form.non_field_errors }}</div>

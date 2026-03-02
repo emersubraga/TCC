@@ -162,6 +162,60 @@
                 {% endif %}
               </div>
             </div>
+
+            <div class="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+              <div class="text-gray-500 flex items-center gap-2">
+                <i class="fa-solid fa-tag text-emerald-700"></i> Status
+              </div>
+              <div class="font-extrabold text-gray-900 mt-1">
+                {{ animal.get_status_display }}
+              </div>
+            </div>
+
+            <div class="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+              <div class="text-gray-500 flex items-center gap-2">
+                <i class="fa-solid fa-venus-mars text-emerald-700"></i> Sexo
+              </div>
+              <div class="font-extrabold text-gray-900 mt-1">
+                {{ animal.get_sexo_display }}
+              </div>
+            </div>
+
+            <div class="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+              <div class="text-gray-500 flex items-center gap-2">
+                <i class="fa-solid fa-ruler-combined text-emerald-700"></i> Porte
+              </div>
+              <div class="font-extrabold text-gray-900 mt-1">
+                {{ animal.get_porte_display }}
+              </div>
+            </div>
+
+            <div class="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+              <div class="text-gray-500 flex items-center gap-2">
+                <i class="fa-solid fa-cake-candles text-emerald-700"></i> Idade aproximada
+              </div>
+              <div class="font-extrabold text-gray-900 mt-1">
+                {% if animal.idade_anos %}{{ animal.idade_anos }} anos{% endif %}
+                {% if animal.idade_meses %} {{ animal.idade_meses }} meses{% endif %}
+                {% if not animal.idade_anos and not animal.idade_meses %}
+                  Não informada
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 flex flex-wrap gap-3">
+            {% if animal.vacinado %}
+              <span class="inline-flex items-center gap-2 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 px-3 py-1 text-xs font-bold">
+                <i class="fa-solid fa-shield-heart"></i> Vacinado
+              </span>
+            {% endif %}
+
+            {% if animal.castrado %}
+              <span class="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 border border-blue-100 px-3 py-1 text-xs font-bold">
+                <i class="fa-solid fa-circle-check"></i> Castrado
+              </span>
+            {% endif %}
           </div>
 
           <!-- AÇÕES -->
@@ -192,6 +246,116 @@
       </div>
     </div>
   </div>
+
+  {% if animal.historia %}
+  <div class="mt-6 bg-white rounded-2xl border border-gray-100 p-6">
+    <h3 class="text-lg font-extrabold text-gray-900 flex items-center gap-2 mb-3">
+      <i class="fa-solid fa-book-open text-emerald-700"></i>
+      História do Animal
+    </h3>
+    <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
+      {{ animal.historia }}
+    </p>
+  </div>
+  {% endif %}
+
+  {% if animal.status == "ADOCAO" %}
+  <div class="mt-6 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-100 flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center">
+        <i class="fa-solid fa-heart text-emerald-700"></i>
+      </div>
+      <div>
+        <h2 class="text-lg font-extrabold text-gray-900">Interesses de Adoção</h2>
+        <p class="text-sm text-gray-500">Pessoas que demonstraram interesse neste animal</p>
+      </div>
+    </div>
+
+    <div class="p-6">
+      {% if interesses %}
+        <div class="space-y-3">
+          {% for i in interesses %}
+          <div class="border border-gray-100 rounded-xl p-4 bg-gray-50">
+            <div class="flex justify-between items-center">
+              <div class="font-bold text-gray-900">
+                {{ i.interessado.username }}
+              </div>
+              <span class="text-xs text-gray-500">
+                {{ i.criado_em|date:"d/m/Y H:i" }}
+              </span>
+            </div>
+
+            <div class="mt-2 text-sm text-gray-700">
+              <strong>Contato:</strong> {{ i.contato }}
+            </div>
+
+            {% if i.mensagem %}
+            <div class="mt-2 text-sm text-gray-600">
+              "{{ i.mensagem }}"
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-sm text-gray-600">Nenhum interesse registrado ainda.</p>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if animal.status == "PERDIDO" %}
+  <div class="mt-6 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-100 flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center">
+        <i class="fa-solid fa-location-crosshairs text-red-600"></i>
+      </div>
+      <div>
+        <h2 class="text-lg font-extrabold text-gray-900">Relatos de Encontro</h2>
+        <p class="text-sm text-gray-500">Pessoas que informaram ter encontrado o animal</p>
+      </div>
+    </div>
+
+    <div class="p-6">
+      {% if relatos %}
+        <div class="space-y-3">
+          {% for r in relatos %}
+          <div class="border border-gray-100 rounded-xl p-4 bg-gray-50">
+            <div class="flex justify-between items-center">
+              <div class="font-bold text-gray-900">
+                {% if r.usuario %}
+                  {{ r.usuario.username }}
+                {% else %}
+                  Anônimo
+                {% endif %}
+              </div>
+              <span class="text-xs text-gray-500">
+                {{ r.criado_em|date:"d/m/Y H:i" }}
+              </span>
+            </div>
+
+            <div class="mt-2 text-sm text-gray-700">
+              <strong>Contato:</strong> {{ r.contato }}
+            </div>
+
+            {% if r.mensagem %}
+            <div class="mt-2 text-sm text-gray-600">
+              "{{ r.mensagem }}"
+            </div>
+            {% endif %}
+
+            <div class="mt-2 text-xs text-gray-500">
+              📍 {{ r.latitude|floatformat:6 }}, {{ r.longitude|floatformat:6 }}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-sm text-gray-600">Nenhum relato registrado ainda.</p>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
 
   <!-- CARD MAPA / HISTÓRICO (EMBAIXO) -->
   <div class="mt-6 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
@@ -278,28 +442,6 @@
   {% endif %}
 
 </div>
-
-<!-- CAPTURA DE LOCALIZAÇÃO (público/QR) -->
-<script>
-  // Mantém seu comportamento atual: tenta capturar localização quando abre a página.
-  // Se quiser, dá pra mudar para botão, mas aqui mantive igual ao seu antigo.
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      fetch("/api/localizacao/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": "{{ csrf_token }}"
-        },
-        body: JSON.stringify({
-          animal_id: {{ animal.id }},
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        })
-      });
-    });
-  }
-</script>
 
 {% if user.is_authenticated and ultima_localizacao %}
 <script>

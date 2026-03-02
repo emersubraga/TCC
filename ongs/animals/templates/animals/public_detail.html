@@ -1,130 +1,337 @@
 {% extends "base_public.html" %}
 {% load tz %}
 
-{% block title %}{{ animal.nome }} • RastroAnimal{% endblock %}
-
 {% block content %}
-<div class="min-h-screen bg-gray-50">
-  <div class="max-w-4xl mx-auto px-4 py-10">
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-      <div class="px-6 py-5 bg-emerald-700 text-white">
-        <div class="flex items-center justify-between">
-          <div>
-            <h1 class="text-2xl font-extrabold">{{ animal.nome }}</h1>
-            <p class="text-white/85 text-sm mt-1">Perfil público (QR Code)</p>
-          </div>
-          <div class="w-11 h-11 rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center">
-            <i class="fa-solid fa-paw text-xl"></i>
-          </div>
-        </div>
-      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-0">
-        <div>
+<div class="max-w-5xl mx-auto px-4 py-10">
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+
+    <!-- HEADER -->
+    <div class="px-6 py-5 bg-emerald-700 text-white flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-extrabold">{{ animal.nome }}</h1>
+        <p class="text-white/80 text-sm mt-1">Perfil público</p>
+      </div>
+      <div class="w-11 h-11 rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center">
+        <i class="fa-solid fa-paw text-xl"></i>
+      </div>
+    </div>
+
+    <div class="p-6">
+
+      <!-- MESMA ESTRUTURA DO DETAIL -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+
+        <!-- FOTO -->
+        <div class="md:col-span-1">
           {% if animal.foto %}
-            <img src="{{ animal.foto.url }}" class="w-full h-72 md:h-full object-cover" alt="Foto do animal">
+            <img src="{{ animal.foto.url }}"
+                 class="w-full h-44 object-cover rounded-xl border border-gray-100"
+                 alt="Foto do animal">
           {% else %}
-            <img src="https://placehold.co/900x700?text=Sem+Foto" class="w-full h-72 md:h-full object-cover" alt="Sem foto">
+            <img src="https://placehold.co/900x700?text=Sem+Foto"
+                 class="w-full h-44 object-cover rounded-xl border border-gray-100"
+                 alt="Sem foto">
           {% endif %}
         </div>
 
-        <div class="p-6">
-          <div class="space-y-3 text-sm">
-            <div class="flex items-center justify-between gap-3">
-              <span class="text-gray-500">Espécie</span>
-              <span class="font-semibold text-gray-900">{{ animal.especie }}</span>
-            </div>
-            <div class="flex items-center justify-between gap-3">
-              <span class="text-gray-500">Raça</span>
-              <span class="font-semibold text-gray-900">{{ animal.raca }}</span>
+        <!-- INFORMAÇÕES -->
+        <div class="md:col-span-2">
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+
+            <div class="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+              <div class="text-gray-500 flex items-center gap-2">
+                <i class="fa-solid fa-paw text-emerald-700"></i> Espécie
+              </div>
+              <div class="font-extrabold text-gray-900 mt-1">{{ animal.especie }}</div>
             </div>
 
-            <div class="h-px bg-gray-100 my-2"></div>
-
-            <div class="flex items-center justify-between gap-3">
-              <span class="text-gray-500">Responsável</span>
-              <span class="font-semibold text-gray-900">{{ animal.responsavel.username }}</span>
+            <div class="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+              <div class="text-gray-500 flex items-center gap-2">
+                <i class="fa-solid fa-dna text-emerald-700"></i> Raça
+              </div>
+              <div class="font-extrabold text-gray-900 mt-1">{{ animal.raca }}</div>
             </div>
 
-            {% if perfil_responsavel and perfil_responsavel.telefone %}
-            <div class="flex items-center justify-between gap-3">
-              <span class="text-gray-500">Contato</span>
-              <span class="font-semibold text-gray-900">{{ perfil_responsavel.telefone }}</span>
+            <div class="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+              <div class="text-gray-500 flex items-center gap-2">
+                <i class="fa-solid fa-user text-emerald-700"></i> Responsável
+              </div>
+              <div class="font-extrabold text-gray-900 mt-1">{{ animal.responsavel.username }}</div>
             </div>
+
+            <div class="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+              <div class="text-gray-500 flex items-center gap-2">
+                <i class="fa-solid fa-phone text-emerald-700"></i> Contato
+              </div>
+              <div class="font-extrabold text-gray-900 mt-1">
+                {% if perfil_responsavel.telefone %}
+                  {{ perfil_responsavel.telefone }}
+                {% else %}
+                  Não informado
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+              <div class="text-gray-500 flex items-center gap-2">
+                <i class="fa-solid fa-tag text-emerald-700"></i> Status
+              </div>
+              <div class="font-extrabold text-gray-900 mt-1">
+                {{ animal.get_status_display }}
+              </div>
+            </div>
+
+            <div class="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+              <div class="text-gray-500 flex items-center gap-2">
+                <i class="fa-solid fa-venus-mars text-emerald-700"></i> Sexo
+              </div>
+              <div class="font-extrabold text-gray-900 mt-1">
+                {{ animal.get_sexo_display }}
+              </div>
+            </div>
+
+            <div class="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+              <div class="text-gray-500 flex items-center gap-2">
+                <i class="fa-solid fa-ruler-combined text-emerald-700"></i> Porte
+              </div>
+              <div class="font-extrabold text-gray-900 mt-1">
+                {{ animal.get_porte_display }}
+              </div>
+            </div>
+
+            <div class="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+              <div class="text-gray-500 flex items-center gap-2">
+                <i class="fa-solid fa-cake-candles text-emerald-700"></i> Idade
+              </div>
+              <div class="font-extrabold text-gray-900 mt-1">
+                {% if animal.idade_anos %}{{ animal.idade_anos }} anos{% endif %}
+                {% if animal.idade_meses %} {{ animal.idade_meses }} meses{% endif %}
+                {% if not animal.idade_anos and not animal.idade_meses %}
+                  Não informada
+                {% endif %}
+              </div>
+            </div>
+
+          </div>
+
+          <!-- BADGES -->
+          <div class="mt-4 flex flex-wrap gap-3">
+            {% if animal.vacinado %}
+              <span class="inline-flex items-center gap-2 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 px-3 py-1 text-xs font-bold">
+                <i class="fa-solid fa-shield-heart"></i> Vacinado
+              </span>
+            {% endif %}
+
+            {% if animal.castrado %}
+              <span class="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 border border-blue-100 px-3 py-1 text-xs font-bold">
+                <i class="fa-solid fa-circle-check"></i> Castrado
+              </span>
             {% endif %}
           </div>
 
-          <div class="mt-6 rounded-2xl border border-emerald-100 bg-emerald-50 p-4 text-sm text-emerald-900">
-            <div class="font-extrabold flex items-center gap-2">
-              <i class="fa-solid fa-circle-info"></i>
-              Informação importante
-            </div>
-            <p class="mt-1 text-emerald-900/90">
-              Este é um perfil público. Ao permitir localização, você ajuda o responsável a monitorar o animal.
-            </p>
-          </div>
+          <!-- BOTÕES -->
+          <div class="mt-5 flex flex-col gap-4">
 
-          <div class="mt-5 flex flex-col sm:flex-row gap-3">
-            <button id="btn-localizacao"
-                    class="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-white font-semibold hover:bg-emerald-700 transition shadow">
-              <i class="fa-solid fa-location-crosshairs"></i>
-              Enviar minha localização
-            </button>
+            {% if animal.status == "PERDIDO" %}
 
+              <!-- FORM ENCONTREI (SÓ PARA PERDIDO) -->
+              <div class="space-y-3">
+                <input id="contato"
+                       class="w-full rounded-xl border border-gray-300 bg-gray-50 px-3 py-2.5"
+                       placeholder="Seu contato (WhatsApp/telefone/e-mail)">
+
+                <textarea id="mensagem"
+                          rows="3"
+                          class="w-full rounded-xl border border-gray-300 bg-gray-50 px-3 py-2.5"
+                          placeholder="Mensagem opcional (ex: estou com o animal agora)"></textarea>
+
+                <button id="btn-encontrei"
+                        class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-4 py-3 text-white font-semibold hover:bg-red-700 transition shadow">
+                  <i class="fa-solid fa-hand-holding-heart"></i>
+                  Encontrei
+                </button>
+
+                <p id="status-encontrei" class="text-xs text-gray-500"></p>
+              </div>
+
+            {% else %}
+
+              <!-- BOTÃO PADRÃO (NÃO PERDIDO) -->
+              <button id="btn-localizacao"
+                      class="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-white font-semibold hover:bg-emerald-700 transition shadow">
+                <i class="fa-solid fa-location-crosshairs"></i>
+                Enviar minha localização
+              </button>
+
+              <p id="status-localizacao" class="text-xs text-gray-500"></p>
+
+            {% endif %}
+
+            <!-- BOTÃO ENTRAR -->
             <a href="{% url 'account_login' %}"
                class="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-700 font-semibold hover:bg-gray-50 transition">
               <i class="fa-solid fa-right-to-bracket"></i>
               Entrar no sistema
             </a>
+
           </div>
 
-          <p id="status-localizacao" class="text-xs text-gray-500 mt-3"></p>
         </div>
       </div>
-    </div>
 
-    <p class="text-center text-xs text-gray-500 mt-6">
-      © {{ now|date:"Y" }} RastroAnimal • Monitoramento e proteção
+    </div>
+  </div>
+
+  <!-- HISTÓRIA (fora do card principal) -->
+  {% if animal.historia %}
+  <div class="mt-6 bg-white rounded-2xl border border-gray-100 p-6">
+    <h3 class="text-lg font-extrabold text-gray-900 flex items-center gap-2 mb-3">
+      <i class="fa-solid fa-book-open text-emerald-700"></i>
+      História do Animal
+    </h3>
+    <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
+      {{ animal.historia }}
     </p>
   </div>
+  {% endif %}
+
+  <p class="text-center text-xs text-gray-500 mt-6">
+    © {% now "Y" %} RastroAnimal • Monitoramento e proteção
+  </p>
+
 </div>
 
 <script>
-  const statusEl = document.getElementById("status-localizacao");
-  const btn = document.getElementById("btn-localizacao");
+  // -------------------------------
+  // Enviar localização (NÃO PERDIDO)
+  // -------------------------------
+  const statusLocalizacaoEl = document.getElementById("status-localizacao");
+  const btnLocalizacao = document.getElementById("btn-localizacao");
 
-  function setStatus(msg) { statusEl.textContent = msg; }
+  function setStatusLocalizacao(msg) {
+    if (statusLocalizacaoEl) statusLocalizacaoEl.textContent = msg;
+  }
 
-  btn?.addEventListener("click", () => {
-    if (!navigator.geolocation) {
-      setStatus("Seu navegador não suporta geolocalização.");
-      return;
-    }
-
-    setStatus("Obtendo localização...");
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-      try {
-        const payload = {
-          animal_id: {{ animal.id }},
-          latitude: pos.coords.latitude,
-          longitude: pos.coords.longitude
-        };
-
-        const resp = await fetch("/api/localizacao/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-
-        if (!resp.ok) throw new Error("Falha ao enviar localização.");
-        setStatus("Localização enviada com sucesso. Obrigado por ajudar! ✅");
-      } catch (e) {
-        setStatus("Não foi possível enviar a localização. Tente novamente.");
+  if (btnLocalizacao) {
+    btnLocalizacao.addEventListener("click", () => {
+      if (!navigator.geolocation) {
+        setStatusLocalizacao("Seu navegador não suporta geolocalização.");
+        return;
       }
-    }, () => {
-      setStatus("Permissão negada ou erro ao obter localização.");
-    }, { enableHighAccuracy: true, timeout: 10000 });
-  });
+
+      btnLocalizacao.disabled = true;
+      btnLocalizacao.classList.add("opacity-70", "cursor-not-allowed");
+      btnLocalizacao.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
+      setStatusLocalizacao("Obtendo localização...");
+
+      navigator.geolocation.getCurrentPosition(async (pos) => {
+        try {
+          const payload = {
+            animal_id: {{ animal.id }},
+            latitude: pos.coords.latitude,
+            longitude: pos.coords.longitude
+          };
+
+          const resp = await fetch("/api/localizacao/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: JSON.stringify(payload)
+          });
+
+          if (!resp.ok) throw new Error();
+
+          setStatusLocalizacao("Localização enviada com sucesso. Obrigado por ajudar! ✅");
+        } catch (e) {
+          setStatusLocalizacao("Não foi possível enviar a localização. Tente novamente.");
+          btnLocalizacao.disabled = false;
+          btnLocalizacao.classList.remove("opacity-70", "cursor-not-allowed");
+          btnLocalizacao.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i> Enviar minha localização';
+        }
+      }, () => {
+        setStatusLocalizacao("Permissão negada ou erro ao obter localização.");
+        btnLocalizacao.disabled = false;
+        btnLocalizacao.classList.remove("opacity-70", "cursor-not-allowed");
+        btnLocalizacao.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i> Enviar minha localização';
+      }, { enableHighAccuracy: true, timeout: 10000 });
+    });
+  }
 </script>
+
+<script>
+  // -------------------------------
+  // Encontrei (PERDIDO)
+  // -------------------------------
+  const btnEncontrei = document.getElementById("btn-encontrei");
+  const statusEncontreiEl = document.getElementById("status-encontrei");
+
+  function setStatusEncontrei(msg) {
+    if (statusEncontreiEl) statusEncontreiEl.textContent = msg;
+  }
+
+  if (btnEncontrei) {
+    btnEncontrei.addEventListener("click", () => {
+      const contato = (document.getElementById("contato")?.value || "").trim();
+      const mensagem = (document.getElementById("mensagem")?.value || "").trim();
+
+      if (!contato) {
+        setStatusEncontrei("Informe seu contato para o responsável poder falar com você.");
+        return;
+      }
+
+      if (!navigator.geolocation) {
+        setStatusEncontrei("Seu navegador não suporta geolocalização.");
+        return;
+      }
+
+      btnEncontrei.disabled = true;
+      btnEncontrei.classList.add("opacity-70", "cursor-not-allowed");
+      btnEncontrei.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
+      setStatusEncontrei("Obtendo localização...");
+
+      navigator.geolocation.getCurrentPosition(async (pos) => {
+        try {
+          const payload = {
+            animal_id: {{ animal.id }},
+            contato: contato,
+            mensagem: mensagem,
+            latitude: pos.coords.latitude,
+            longitude: pos.coords.longitude
+          };
+
+          const resp = await fetch("{% url 'api_encontrei' %}", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: JSON.stringify(payload)
+          });
+
+          const data = await resp.json();
+          if (!resp.ok || !data.ok) throw new Error(data.error || "Erro");
+
+          setStatusEncontrei("✅ Enviado! Obrigado por ajudar. O responsável vai entrar em contato.");
+        } catch (e) {
+          setStatusEncontrei("Não foi possível enviar. Tente novamente.");
+          btnEncontrei.disabled = false;
+          btnEncontrei.classList.remove("opacity-70", "cursor-not-allowed");
+          btnEncontrei.innerHTML = '<i class="fa-solid fa-hand-holding-heart"></i> Encontrei';
+        }
+      }, () => {
+        setStatusEncontrei("Permissão negada ou erro ao obter localização.");
+        btnEncontrei.disabled = false;
+        btnEncontrei.classList.remove("opacity-70", "cursor-not-allowed");
+        btnEncontrei.innerHTML = '<i class="fa-solid fa-hand-holding-heart"></i> Encontrei';
+      }, { enableHighAccuracy: true, timeout: 10000 });
+    });
+  }
+</script>
+
 {% endblock %}
 

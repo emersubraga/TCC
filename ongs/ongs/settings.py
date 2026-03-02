@@ -59,9 +59,12 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-LOGIN_REDIRECT_URL = "dashboard"
-LOGOUT_REDIRECT_URL = "account_login"
-LOGIN_URL = "account_login"
+LOGIN_URL = "/accounts/login/"
+LOGIN_REDIRECT_URL = "/"  # ou sua home do painel
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 
@@ -110,6 +113,10 @@ DATABASES = {
     }
 }
 
+ACCOUNT_FORMS = {
+    "login": "animals.forms_auth.CustomLoginForm",
+    "signup": "animals.forms_auth.CustomSignupForm",
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators

@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-8">
+
+  <div class="flex items-start justify-between gap-4 mb-6">
+    <div>
+      <h1 class="text-2xl font-extrabold text-slate-900 flex items-center gap-2">
+        <i class="fa-solid fa-clipboard-check text-emerald-700"></i>
+        Aprovação de Animais
+      </h1>
+      <p class="text-sm text-slate-500 mt-1">
+        Aqui aparecem apenas animais com status <strong>PENDENTE</strong>.
+      </p>
+    </div>
+
+    <div class="bg-white border border-slate-200 rounded-2xl px-5 py-3 shadow-sm">
+      <div class="text-xs text-slate-500">Pendentes</div>
+      <div class="text-2xl font-extrabold text-amber-600">{{ total_pendentes }}</div>
+    </div>
+  </div>
+
+  {% if pendentes %}
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      {% for animal in pendentes %}
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="relative">
+            {% if animal.foto %}
+              <img src="{{ animal.foto.url }}" class="w-full h-44 object-cover" alt="Foto do animal">
+            {% else %}
+              <img src="https://placehold.co/900x600?text=Sem+Foto" class="w-full h-44 object-cover" alt="Sem foto">
+            {% endif %}
+
+            <div class="absolute top-3 left-3">
+              <span class="inline-flex items-center gap-2 rounded-full bg-yellow-50 text-yellow-800 border border-yellow-200 px-3 py-1 text-xs font-bold shadow">
+                <i class="fa-solid fa-hourglass-half"></i> PENDENTE
+              </span>
+            </div>
+          </div>
+
+          <div class="p-5">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="text-lg font-extrabold text-slate-900 leading-tight">{{ animal.nome }}</div>
+                <div class="text-sm text-slate-500">{{ animal.especie }} • {{ animal.raca }}</div>
+                <div class="text-xs text-slate-500 mt-2">
+                  Responsável: <strong>{{ animal.responsavel.username }}</strong>
+                </div>
+              </div>
+
+              <a href="{% url 'animal_detail' animal.id %}"
+                 class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition">
+                <i class="fa-solid fa-eye"></i> Ver
+              </a>
+            </div>
+
+            {% if animal.aprovacao_motivo %}
+              <div class="mt-3 text-xs text-slate-600 bg-slate-50 border border-slate-100 rounded-xl p-3">
+                <strong>Motivo:</strong> {{ animal.aprovacao_motivo }}
+              </div>
+            {% endif %}
+
+            <div class="mt-4 flex flex-col gap-2">
+              <!-- Aprovar -->
+              <form method="post" action="{% url 'animal_aprovar' animal.id %}">
+                {% csrf_token %}
+                <button type="submit"
+                        class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-white text-sm font-semibold hover:bg-emerald-700 transition">
+                  <i class="fa-solid fa-circle-check"></i> Aprovar
+                </button>
+              </form>
+
+              <!-- Rejeitar -->
+              <form method="post" action="{% url 'animal_rejeitar' animal.id %}" class="space-y-2">
+                {% csrf_token %}
+                <input name="motivo"
+                       class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-4 focus:ring-red-100 focus:border-red-300"
+                       placeholder="Motivo (opcional)">
+
+                <button type="submit"
+                        class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-white text-sm font-semibold hover:bg-red-700 transition">
+                  <i class="fa-solid fa-circle-xmark"></i> Rejeitar
+                </button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="bg-white border border-slate-200 rounded-2xl p-8 text-center text-slate-600">
+      <i class="fa-solid fa-check text-emerald-700 text-2xl"></i>
+      <div class="mt-3 font-semibold">Nenhum animal pendente no momento.</div>
+      <div class="text-sm text-slate-500 mt-1">Tudo aprovado ✅</div>
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

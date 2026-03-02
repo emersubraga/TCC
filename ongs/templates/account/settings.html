@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-extrabold text-slate-900 flex items-center gap-2">
+      <i class="fa-solid fa-user-gear text-emerald-700"></i>
+      Minha conta
+    </h1>
+
+    <a href="{% url 'account_logout' %}"
+       class="inline-flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-red-700 font-semibold hover:bg-red-100 transition">
+      <i class="fa-solid fa-right-from-bracket"></i>
+      Sair
+    </a>
+  </div>
+
+  <!-- DADOS -->
+  <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+    <h2 class="font-extrabold text-slate-900 mb-4 flex items-center gap-2">
+      <i class="fa-solid fa-address-card text-emerald-700"></i>
+      Dados do usuário
+    </h2>
+
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="salvar_dados">
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">E-mail</label>
+          {{ user_form.email }}
+          {% for e in user_form.email.errors %}<p class="text-sm text-red-600 mt-1">{{ e }}</p>{% endfor %}
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">Telefone</label>
+          {{ perfil_form.telefone }}
+          {% for e in perfil_form.telefone.errors %}<p class="text-sm text-red-600 mt-1">{{ e }}</p>{% endfor %}
+        </div>
+      </div>
+
+      <div class="flex justify-end">
+        <button class="px-6 py-2.5 rounded-xl bg-emerald-600 text-white font-extrabold hover:bg-emerald-700 transition shadow">
+          <i class="fa-solid fa-floppy-disk mr-2"></i>
+          Salvar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- SOLICITAÇÃO DE TIPO -->
+  <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm mt-6">
+    <h2 class="font-extrabold text-slate-900 mb-4 flex items-center gap-2">
+      <i class="fa-solid fa-user-tag text-emerald-700"></i>
+      Solicitar mudança de tipo
+    </h2>
+
+    <div class="text-sm text-slate-600 mb-4">
+      <span class="font-semibold">Tipo atual:</span> {{ perfil.get_tipo_display }}
+    </div>
+
+    {% if perfil.solicitacao_status == "PENDENTE" %}
+      <div class="rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-900 text-sm">
+        <div class="font-bold flex items-center gap-2">
+          <i class="fa-solid fa-clock"></i>
+          Solicitação pendente
+        </div>
+        <p class="mt-1">Aguarde a aprovação do administrador.</p>
+      </div>
+    {% else %}
+      <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="solicitar_tipo">
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">Quero ser</label>
+          {{ solicit_form.solicitacao_tipo }}
+          {% for e in solicit_form.solicitacao_tipo.errors %}<p class="text-sm text-red-600 mt-1">{{ e }}</p>{% endfor %}
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">CNPJ (se solicitar ONG)</label>
+            {{ solicit_form.ong_cnpj }}
+            {% for e in solicit_form.ong_cnpj.errors %}<p class="text-sm text-red-600 mt-1">{{ e }}</p>{% endfor %}
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">Representante legal (se solicitar ONG)</label>
+            {{ solicit_form.ong_representante_legal }}
+            {% for e in solicit_form.ong_representante_legal.errors %}<p class="text-sm text-red-600 mt-1">{{ e }}</p>{% endfor %}
+          </div>
+        </div>
+
+        <div class="flex justify-end">
+          <button class="px-6 py-2.5 rounded-xl bg-emerald-600 text-white font-extrabold hover:bg-emerald-700 transition shadow">
+            <i class="fa-solid fa-paper-plane mr-2"></i>
+            Enviar solicitação
+          </button>
+        </div>
+      </form>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}
