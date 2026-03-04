@@ -16,14 +16,36 @@
     </a>
   </div>
 
-  <!-- DADOS -->
+  <!-- ESTILO PADRÃO DOS INPUTS -->
+  <style>
+    .modern-input input, .modern-input select, .modern-input textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      background: #f9fafb;
+      outline: none;
+      transition: all .2s ease;
+      font-size: 14px;
+    }
+
+    .modern-input input:focus,
+    .modern-input select:focus,
+    .modern-input textarea:focus {
+      border-color: #10b981;
+      box-shadow: 0 0 0 4px rgba(16,185,129,.15);
+      background: #fff;
+    }
+  </style>
+
+  <!-- DADOS DO USUÁRIO -->
   <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
     <h2 class="font-extrabold text-slate-900 mb-4 flex items-center gap-2">
       <i class="fa-solid fa-address-card text-emerald-700"></i>
       Dados do usuário
     </h2>
 
-    <form method="post" class="space-y-4">
+    <form method="post" class="space-y-4 modern-input">
       {% csrf_token %}
       <input type="hidden" name="action" value="salvar_dados">
 
@@ -63,35 +85,40 @@
 
     {% if perfil.solicitacao_status == "PENDENTE" %}
       <div class="rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-900 text-sm">
-        <div class="font-bold flex items-center gap-2">
-          <i class="fa-solid fa-clock"></i>
-          Solicitação pendente
-        </div>
-        <p class="mt-1">Aguarde a aprovação do administrador.</p>
+        <i class="fa-solid fa-clock mr-2"></i>
+        Solicitação pendente de aprovação.
       </div>
     {% else %}
-      <form method="post" class="space-y-4">
+      <form method="post" class="space-y-4 modern-input">
         {% csrf_token %}
         <input type="hidden" name="action" value="solicitar_tipo">
 
         <div>
           <label class="block text-sm font-semibold text-slate-700 mb-1">Quero ser</label>
           {{ solicit_form.solicitacao_tipo }}
-          {% for e in solicit_form.solicitacao_tipo.errors %}<p class="text-sm text-red-600 mt-1">{{ e }}</p>{% endfor %}
         </div>
 
+        <!-- CAMPOS DINÂMICOS -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-1">CNPJ (se solicitar ONG)</label>
-            {{ solicit_form.ong_cnpj }}
-            {% for e in solicit_form.ong_cnpj.errors %}<p class="text-sm text-red-600 mt-1">{{ e }}</p>{% endfor %}
+
+          <!-- CPF -->
+          <div id="wrap-cpf" class="hidden">
+            <label class="block text-sm font-semibold text-slate-700 mb-1">CPF</label>
+            {{ solicit_form.protetor_cpf }}
           </div>
 
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-1">Representante legal (se solicitar ONG)</label>
-            {{ solicit_form.ong_representante_legal }}
-            {% for e in solicit_form.ong_representante_legal.errors %}<p class="text-sm text-red-600 mt-1">{{ e }}</p>{% endfor %}
+          <!-- CNPJ -->
+          <div id="wrap-cnpj" class="hidden">
+            <label class="block text-sm font-semibold text-slate-700 mb-1">CNPJ</label>
+            {{ solicit_form.ong_cnpj }}
           </div>
+
+          <!-- Representante -->
+          <div id="wrap-rep" class="hidden">
+            <label class="block text-sm font-semibold text-slate-700 mb-1">Representante legal</label>
+            {{ solicit_form.ong_representante_legal }}
+          </div>
+
         </div>
 
         <div class="flex justify-end">
@@ -105,4 +132,53 @@
   </div>
 
 </div>
+
+<!-- SCRIPT DINÂMICO -->
+<script>
+function onlyDigits(s){ return (s || "").replace(/\D/g, ""); }
+
+function maskCPF(v){
+  v = onlyDigits(v).slice(0,11);
+  return v.replace(/(\d{3})(\d)/,"$1.$2")
+          .replace(/(\d{3})(\d)/,"$1.$2")
+          .replace(/(\d{3})(\d{1,2})$/,"$1-$2");
+}
+
+function maskCNPJ(v){
+  v = onlyDigits(v).slice(0,14);
+  return v.replace(/^(\d{2})(\d)/,"$1.$2")
+          .replace(/^(\d{2})\.(\d{3})(\d)/,"$1.$2.$3")
+          .replace(/\.(\d{3})(\d)/,".$1/$2")
+          .replace(/(\d{4})(\d)/,"$1-$2");
+}
+
+function toggleFields(){
+  const select = document.getElementById("id_solicitacao_tipo");
+  const cpf = document.getElementById("wrap-cpf");
+  const cnpj = document.getElementById("wrap-cnpj");
+  const rep = document.getElementById("wrap-rep");
+
+  cpf?.classList.add("hidden");
+  cnpj?.classList.add("hidden");
+  rep?.classList.add("hidden");
+
+  if(select?.value === "PROTETOR") cpf?.classList.remove("hidden");
+  if(select?.value === "ONG"){
+    cnpj?.classList.remove("hidden");
+    rep?.classList.remove("hidden");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  toggleFields();
+  document.getElementById("id_solicitacao_tipo")?.addEventListener("change", toggleFields);
+
+  const cpfInput = document.getElementById("id_protetor_cpf");
+  cpfInput?.addEventListener("input", e => e.target.value = maskCPF(e.target.value));
+
+  const cnpjInput = document.getElementById("id_ong_cnpj");
+  cnpjInput?.addEventListener("input", e => e.target.value = maskCNPJ(e.target.value));
+});
+</script>
+
 {% endblock %}

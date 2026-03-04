@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load tz %}
+{% load tz l10n %}
 
 {% block content %}
 
@@ -400,7 +400,6 @@
 
   <!-- =========================
        MEDALHA (PINGENTE) PARA PRINT
-       Fica na página normalmente também, mas a impressão pega só ela.
        ========================= -->
   {% if user.is_authenticated %}
   <div class="mt-8">
@@ -409,9 +408,7 @@
       Identificação do Animal (Pingente)
     </h3>
 
-    <!-- ESTE É O BLOCO QUE O @media print EXIBE -->
     <div class="medalha-container" id="tag-print">
-      <!-- FRENTE -->
       <div class="medalha">
         <h3>{{ animal.nome }}</h3>
         {% if animal.qr_code %}
@@ -421,7 +418,6 @@
         {% endif %}
       </div>
 
-      <!-- VERSO -->
       <div class="medalha verso">
         <div class="help">
           Estou sob cuidado de uma ONG.<br>
@@ -445,16 +441,23 @@
 
 {% if user.is_authenticated and ultima_localizacao %}
 <script>
-  const map = L.map('map').setView(
-    [{{ ultima_localizacao.latitude }}, {{ ultima_localizacao.longitude }}],
-    15
-  );
+document.addEventListener("DOMContentLoaded", function () {
+  const latInicial = Number("{{ ultima_localizacao.latitude|unlocalize }}");
+  const lngInicial = Number("{{ ultima_localizacao.longitude|unlocalize }}");
+
+  if (!Number.isFinite(latInicial) || !Number.isFinite(lngInicial)) {
+    console.error("Coordenadas inválidas:", latInicial, lngInicial);
+    return;
+  }
+
+  const map = L.map('map').setView([latInicial, lngInicial], 15);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
   }).addTo(map);
 
-  // Ícone CINZA (antigas)
+  setTimeout(() => map.invalidateSize(), 200);
+
   const iconCinza = L.icon({
     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-grey.png',
     shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
@@ -464,7 +467,6 @@
     shadowSize: [41, 41]
   });
 
-  // Ícone AZUL (última)
   const iconAzul = L.icon({
     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
     shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
@@ -475,16 +477,23 @@
   });
 
   {% for loc in localizacoes %}
-    {% if forloop.first %}
-      L.marker([{{ loc.latitude }}, {{ loc.longitude }}], { icon: iconAzul })
-        .addTo(map)
-        .bindPopup("<strong>Última localização</strong><br>{{ loc.data|localtime|date:'d/m/Y H:i' }}");
-    {% else %}
-      L.marker([{{ loc.latitude }}, {{ loc.longitude }}], { icon: iconCinza })
-        .addTo(map)
-        .bindPopup("{{ loc.data|localtime|date:'d/m/Y H:i' }}");
-    {% endif %}
+    (function() {
+      const lat = Number("{{ loc.latitude|unlocalize }}");
+      const lng = Number("{{ loc.longitude|unlocalize }}");
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+
+      {% if forloop.first %}
+        L.marker([lat, lng], { icon: iconAzul })
+          .addTo(map)
+          .bindPopup("<strong>Última localização</strong><br>{{ loc.data|localtime|date:'d/m/Y H:i' }}");
+      {% else %}
+        L.marker([lat, lng], { icon: iconCinza })
+          .addTo(map)
+          .bindPopup("{{ loc.data|localtime|date:'d/m/Y H:i' }}");
+      {% endif %}
+    })();
   {% endfor %}
+});
 </script>
 {% endif %}
 
