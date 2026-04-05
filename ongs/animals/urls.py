@@ -27,6 +27,7 @@ urlpatterns = [
     path("animais/pendentes/", views.animais_pendentes, name="animais_pendentes"),
     path("animais/<int:id>/aprovar/", views.animal_aprovar, name="animal_aprovar"),
     path("animais/<int:id>/rejeitar/", views.animal_rejeitar, name="animal_rejeitar"),
+    path("notificacoes/", views.notificacoes, name="notificacoes"),
     
 ]
 

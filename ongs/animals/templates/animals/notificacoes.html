@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="max-w-3xl mx-auto py-8">
+
+<h1 class="text-2xl font-bold mb-6">Notificações</h1>
+
+<div class="space-y-3">
+
+{% for n in notificacoes %}
+
+<div class="p-4 bg-white border rounded-xl">
+
+<div class="font-semibold text-sm">
+{{ n.mensagem }}
+</div>
+
+<div class="text-xs text-gray-500 mt-1">
+{{ n.data }}
+</div>
+
+</div>
+
+{% empty %}
+
+<p class="text-gray-500 text-sm">
+Nenhuma notificação.
+</p>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -115,10 +115,17 @@
               <i class="fa-solid fa-eye"></i> Detalhes
             </a>
 
-            <a href="{% url 'animal_public_detail' animal.pk %}"
-              class="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-gray-700 text-sm font-semibold hover:bg-gray-50 transition">
-              <i class="fa-solid fa-globe"></i> Público
-            </a>
+            {% if animal.aprovacao_status == "APROVADO" %}
+              <a href="{% url 'animal_public_detail' animal.pk %}"
+                class="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-gray-700 text-sm font-semibold hover:bg-gray-50 transition">
+                <i class="fa-solid fa-globe"></i> Público
+              </a>
+            {% else %}
+              <span
+                class="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-gray-100 px-4 py-2 text-gray-400 text-sm font-semibold cursor-not-allowed">
+                <i class="fa-solid fa-lock"></i> Público
+              </span>
+            {% endif %}
 
             {% if perfil.tipo == "ADMIN" or perfil.tipo == "ONG" or perfil.tipo == "PROTETOR" %}
               <a href="{% url 'animal_update' animal.pk %}"

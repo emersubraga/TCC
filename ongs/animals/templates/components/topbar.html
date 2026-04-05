@@ -10,15 +10,25 @@
     </div>
 
     <div class="flex items-center gap-3">
-      <div class="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-50 border border-slate-200">
+      <!-- <div class="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-50 border border-slate-200">
         <i class="fa-solid fa-magnifying-glass text-slate-400"></i>
         <input class="bg-transparent outline-none text-sm w-56"
                placeholder="Pesquisar (em breve)" />
-      </div>
+      </div>-->
 
-      <button class="w-10 h-10 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition text-slate-600">
-        <i class="fa-regular fa-bell"></i>
-      </button>
+      <div class="relative">
+        <a href="{% url 'notificacoes' %}"
+          class="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition text-slate-600">
+
+          <i class="fa-regular fa-bell"></i>
+
+          {% if notificacoes_nao_lidas > 0 %}
+            <span class="absolute -top-1 -right-1 text-[10px] px-1.5 py-0.5 rounded-full bg-red-500 text-white font-bold">
+              {{ notificacoes_nao_lidas }}
+            </span>
+          {% endif %}
+        </a>
+      </div>
     </div>
   </div>
 </header>

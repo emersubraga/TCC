@@ -16,7 +16,6 @@
     </a>
   </div>
 
-  <!-- ESTILO PADRÃO DOS INPUTS -->
   <style>
     .modern-input input, .modern-input select, .modern-input textarea {
       width: 100%;
@@ -50,16 +49,35 @@
       <input type="hidden" name="action" value="salvar_dados">
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-1">E-mail</label>
-          {{ user_form.email }}
-          {% for e in user_form.email.errors %}<p class="text-sm text-red-600 mt-1">{{ e }}</p>{% endfor %}
+          <label class="block text-sm font-semibold text-slate-700 mb-1">
+            Nome de usuário
+          </label>
+          {{ user_form.username }}
+          {% for e in user_form.username.errors %}
+            <p class="text-sm text-red-600 mt-1">{{ e }}</p>
+          {% endfor %}
         </div>
 
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-1">Telefone</label>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">
+            E-mail
+          </label>
+          {{ user_form.email }}
+          {% for e in user_form.email.errors %}
+            <p class="text-sm text-red-600 mt-1">{{ e }}</p>
+          {% endfor %}
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">
+            Contato
+          </label>
           {{ perfil_form.telefone }}
-          {% for e in perfil_form.telefone.errors %}<p class="text-sm text-red-600 mt-1">{{ e }}</p>{% endfor %}
+          {% for e in perfil_form.telefone.errors %}
+            <p class="text-sm text-red-600 mt-1">{{ e }}</p>
+          {% endfor %}
         </div>
       </div>
 
@@ -96,29 +114,27 @@
         <div>
           <label class="block text-sm font-semibold text-slate-700 mb-1">Quero ser</label>
           {{ solicit_form.solicitacao_tipo }}
+          {% for e in solicit_form.solicitacao_tipo.errors %}<p class="text-sm text-red-600 mt-1">{{ e }}</p>{% endfor %}
         </div>
 
-        <!-- CAMPOS DINÂMICOS -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-          <!-- CPF -->
           <div id="wrap-cpf" class="hidden">
             <label class="block text-sm font-semibold text-slate-700 mb-1">CPF</label>
             {{ solicit_form.protetor_cpf }}
+            {% for e in solicit_form.protetor_cpf.errors %}<p class="text-sm text-red-600 mt-1">{{ e }}</p>{% endfor %}
           </div>
 
-          <!-- CNPJ -->
           <div id="wrap-cnpj" class="hidden">
             <label class="block text-sm font-semibold text-slate-700 mb-1">CNPJ</label>
             {{ solicit_form.ong_cnpj }}
+            {% for e in solicit_form.ong_cnpj.errors %}<p class="text-sm text-red-600 mt-1">{{ e }}</p>{% endfor %}
           </div>
 
-          <!-- Representante -->
           <div id="wrap-rep" class="hidden">
             <label class="block text-sm font-semibold text-slate-700 mb-1">Representante legal</label>
             {{ solicit_form.ong_representante_legal }}
+            {% for e in solicit_form.ong_representante_legal.errors %}<p class="text-sm text-red-600 mt-1">{{ e }}</p>{% endfor %}
           </div>
-
         </div>
 
         <div class="flex justify-end">
@@ -133,7 +149,6 @@
 
 </div>
 
-<!-- SCRIPT DINÂMICO -->
 <script>
 function onlyDigits(s){ return (s || "").replace(/\D/g, ""); }
 
@@ -162,8 +177,11 @@ function toggleFields(){
   cnpj?.classList.add("hidden");
   rep?.classList.add("hidden");
 
-  if(select?.value === "PROTETOR") cpf?.classList.remove("hidden");
-  if(select?.value === "ONG"){
+  if (select?.value === "PROTETOR") {
+    cpf?.classList.remove("hidden");
+  }
+
+  if (select?.value === "ONG") {
     cnpj?.classList.remove("hidden");
     rep?.classList.remove("hidden");
   }
@@ -171,6 +189,7 @@ function toggleFields(){
 
 document.addEventListener("DOMContentLoaded", () => {
   toggleFields();
+
   document.getElementById("id_solicitacao_tipo")?.addEventListener("change", toggleFields);
 
   const cpfInput = document.getElementById("id_protetor_cpf");
@@ -178,6 +197,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const cnpjInput = document.getElementById("id_ong_cnpj");
   cnpjInput?.addEventListener("input", e => e.target.value = maskCNPJ(e.target.value));
+
+  const cpfEditInput = document.getElementById("id_protetor_cpf");
+  cpfEditInput?.addEventListener("input", e => e.target.value = maskCPF(e.target.value));
+
+  const cnpjEditInput = document.getElementById("id_ong_cnpj");
+  cnpjEditInput?.addEventListener("input", e => e.target.value = maskCNPJ(e.target.value));
 });
 </script>
 
